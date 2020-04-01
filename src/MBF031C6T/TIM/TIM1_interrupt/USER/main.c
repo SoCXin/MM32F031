@@ -58,7 +58,8 @@ int main(void)
     Tim1_UPCount_init(SystemCoreClock / 10000 - 1, 9999);
     while(1) {
         /* 等待定时器溢出 */
-        if(timeflag == 1) {
+        if(timeflag == 1) 
+				{
             uiCnt++;
             timeflag = 0;
             LED1_TOGGLE();
