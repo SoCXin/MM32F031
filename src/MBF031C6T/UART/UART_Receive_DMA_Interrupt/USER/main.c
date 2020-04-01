@@ -44,15 +44,16 @@ int main(void)
 
     uart_initwBaudRate(115200);
     DMA_Configuration();                                                        //UART DMA配置
-    UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入10个数字!\r\n"));
+    UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入10数字!\r\n"));
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "串口助手不能勾选发送新行!\r\n"));
     while(1) {
-        if(TestStatus == 1) {
-            TestStatus = 0;
-            for(i = 0; i < 10; i++)
-                UartSendGroup((u8*)printBuf, sprintf(printBuf, "DST_Buffer[%d]==%d\r\n", i, (DST_Buffer[i] - 0x30)));
-            UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));
-        }
+		if(TestStatus == 1) 
+		{
+				TestStatus = 0;
+				for(i = 0; i < 10; i++)
+						UartSendGroup((u8*)printBuf, sprintf(printBuf, "DST_Buffer[%d]==%d\r\n", i, (DST_Buffer[i] - 0x30)));
+				UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));
+		}
     }
 }
 

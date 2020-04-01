@@ -97,7 +97,8 @@ void Uart1RxTest(UART_TypeDef* UARTx)
 {
     unsigned char temp;
     temp = inbyte(UARTx);
-    if(temp != 0) {
+    if(temp != 0) 
+		{
         UartSendGroup((u8*)printBuf, sprintf(printBuf, "您输入的数据为:%c\r\n", temp));
     }
 }
@@ -119,7 +120,8 @@ unsigned char inbyte(UART_TypeDef* UARTx)
         }
     }
     temp = (uint8_t)UART_ReceiveData(UARTx);
-    if(temp == 0xd) {                                                           //清除错误接收的数据
+    if(temp == 0xd) 
+		{                                                           	//清除错误接收的数据
         return 0;
     }
     return temp;
