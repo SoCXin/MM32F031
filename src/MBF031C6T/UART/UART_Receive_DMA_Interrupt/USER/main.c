@@ -12,7 +12,7 @@
 #include "HAL_conf.h"
 #include "stdio.h"
 
-u8 DST_Buffer[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};                             //UART DMA接受到数据存放数
+u8 DST_Buffer[10] = {0, 6, 7, 0, 0, 0, 0, 0, 0, 0};                             //UART DMA接受到数据存放数
 u8 TestStatus = 0;                                                              //DMA传输完成标志位
 
 void DMA_Configuration(void);
@@ -36,14 +36,15 @@ int main(void)
     DMA_Configuration();                                                        //UART DMA配置
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入10数字!\r\n"));
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "串口助手不能勾选发送新行!\r\n"));
-    while(1) {
-		if(TestStatus == 1) 
+    while(1) 
 		{
-				TestStatus = 0;
-				for(i = 0; i < 10; i++)
-						UartSendGroup((u8*)printBuf, sprintf(printBuf, "DST_Buffer[%d]==%d\r\n", i, (DST_Buffer[i] - 0x30)));
-				UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));
-		}
+			if(TestStatus == 1) 
+			{
+					TestStatus = 0;
+					for(i = 0; i < 10; i++)
+							UartSendGroup((u8*)printBuf, sprintf(printBuf, "DST_Buffer[%d]==%d\r\n", i, (DST_Buffer[i] - 0x30)));
+					UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));
+			}
     }
 }
 
@@ -115,6 +116,7 @@ void DMA_Configuration(void)
     NVIC_InitTypeDef  NVIC_InitStructure;
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
     /* UARTy_DMA1_Channel Config */
+	
     DMA_DeInit(DMA1_Channel3);
     DMA_InitStructure.DMA_PeripheralBaseAddr = (u32) & (UART1->RDR);
     DMA_InitStructure.DMA_MemoryBaseAddr = (u32)DST_Buffer;
@@ -137,7 +139,7 @@ void DMA_Configuration(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
     /* Enable UARTy_DMA1_Channel Transfer complete interrupt */
-    DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);                             //配DMA1的通道3 允许传输完成中断
+    DMA_ITConfig(DMA1_Channel3, DMA_IT_TC, ENABLE);                             //配DMA1的通道3允许传输完成中断
 
     UART_DMACmd(UART1, UART_DMAReq_EN, ENABLE);                                 //DMA方式选择位 UART->GCR
     /* UARTy_DMA1_Channel enable */
@@ -170,13 +172,6 @@ void UartSendGroup(u8* buf, u16 len)
         UartSendByte(*buf++);
 }
 
-/**
-* @}
-*/
-
-/**
-* @}
-*/
 
 /**
 * @}

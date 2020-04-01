@@ -6,16 +6,6 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
 #include "HAL_device.h"
 #include "stdio.h"
@@ -64,23 +54,23 @@ int main(void)
 {
     u32 ulA = 0;
     delayms(2000);
-
     LED_Init();
-    while (1) {
+    while (1) 
+		{
         ulA++;
         delayms(1000);
         LED1_TOGGLE();
         LED2_TOGGLE();
         LED3_TOGGLE();
         LED4_TOGGLE();
-        if (ulA == 5) {
+        if (ulA == 5) 
+				{
             ulA = 0;
             break;
         }
     }
     RCC_ConfigInit();
     GPIO_ConfigInit();
-
     WKUP_Init();
     Iwdg_Interrupt_Config();
     Write_Iwdg_ON(IWDG_Prescaler_256, 1000);//256*1000/40000=6.4S
