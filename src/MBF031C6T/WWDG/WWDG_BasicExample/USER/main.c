@@ -6,16 +6,6 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
 
 #include "HAL_device.h"
@@ -45,7 +35,7 @@ int main(void)
 
     delay_init();
     uart_initwBaudRate(115200);
-    UartSendGroup((u8*)printBuf, sprintf(printBuf, "uart ok!\r\n"));
+    UartSendGroup((u8*)printBuf, sprintf(printBuf, "uart init!\r\n"));
 
     /*窗口看门狗打开,微秒至毫秒级复位,与喂狗函数WWDG_SetCounter()并用*/
     Wwdg_reset_ON(0x7e, 0x7f);                                                  //窗口看门狗FUN_2,短时内无喂狗动作复位
@@ -53,7 +43,7 @@ int main(void)
     while(1) {
         //无复位程序进入死循环,反正系统一直打印串口数据
         WWDG_SetCounter(0x7e);
-        delay_ms(1);
+        delay_ms(10);
     }
 }
 

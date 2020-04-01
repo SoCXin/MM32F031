@@ -6,17 +6,8 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
+
 #include "HAL_device.h"
 #include "HAL_conf.h"
 #include "stdio.h"
@@ -55,18 +46,18 @@ int main(void)
 {
     u32 i;
     //请不要在这里使用systick方式延时,systick中断也会唤醒wfe
-
     uart_initwBaudRate(115200);
     LED_Init();
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "sleep mode ! \r\n"));
     sleep_test();
-
     //按下K2，被唤醒
-    while(1) {
+    while(1) 
+		{
         UartSendGroup((u8*)printBuf, sprintf(printBuf, "Wake Up ! \r\n"));
         LED1_TOGGLE();
         LED2_TOGGLE();
         LED3_TOGGLE();
+			 for(i = 0; i < 600000; i++);
         LED4_TOGGLE();
         for(i = 0; i < 600000; i++);
     }

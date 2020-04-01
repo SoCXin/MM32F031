@@ -82,7 +82,8 @@ int functiontest(void)
     int FunNumber;
 
     FunNumber = sizeof(pfun) / 4;
-    for(i = 0; i < FunNumber; i++) {
+    for(i = 0; i < FunNumber; i++) 
+		{
         pfun[i]();
     }
 
@@ -200,7 +201,8 @@ void LED_Init(void)
 ********************************************************************************************************/
 void DMA1_Channel1_IRQHandler(void)
 {
-    if(DMA_GetITStatus(DMA1_IT_TC1)) {
+    if(DMA_GetITStatus(DMA1_IT_TC1)) 
+		{
         DMA_ClearITPendingBit(DMA1_IT_TC1);
         dma1Flag = 0x1;
     }
@@ -214,7 +216,8 @@ void DMA1_Channel1_IRQHandler(void)
 ********************************************************************************************************/
 void DMA1_Channel2_3_IRQHandler(void)
 {
-    if(DMA_GetITStatus(DMA1_IT_TC2)) {
+    if(DMA_GetITStatus(DMA1_IT_TC2)) 
+		{
         DMA_ClearITPendingBit(DMA1_IT_TC2);
         dma2Flag = 0x1;
     }
