@@ -191,7 +191,7 @@ int main(void)
             LED2_TOGGLE();
             LED3_TOGGLE();
             LED4_TOGGLE();
-            delay_ms(500);
+            delay_ms(5000);
         }
     } else {//fail
         while(1) {

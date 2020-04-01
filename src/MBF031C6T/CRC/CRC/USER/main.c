@@ -65,10 +65,12 @@ int main(void)
         CRC_ResetDR();
         CRCValue =  CRC_CalcCRC(0x100);
     }
-    for(i = 0; i < 10; i++) {
+    for(i = 0; i < 10; i++) 
+		{
         CRC_ResetDR();
         /* Compute the CRC of "DataBuffer" */
         CRCValue = CRC_CalcBlockCRC((uint32_t *)DataBuffer, BUFFER_SIZE);
+				
     }
 
     while(1) {
