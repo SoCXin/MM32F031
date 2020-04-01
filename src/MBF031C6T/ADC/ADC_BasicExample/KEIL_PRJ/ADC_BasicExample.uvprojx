@@ -10,9 +10,9 @@
       <TargetName>MM32</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>613::V6.13::.\ARMCLANG</pArmCC>
-      <pCCUsed>613::V6.13::.\ARMCLANG</pCCUsed>
-      <uAC6>1</uAC6>
+      <pArmCC>5060750::V5.06 update 6 (build 750)::ARMCC</pArmCC>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>MM32F031C6T</Device>
@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>7</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER  MM32F031NVERSION</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\..\Device\CMSIS\KEIL_CORE;..\..\..\..\..\Device\MM32F031x4x6_q\Include;..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\inc</IncludePath>
+              <IncludePath>..\..\..\Device\CMSIS\KEIL_CORE;..\..\..\Device\MM32F031x4x6\Include;..\..\..\Device\MM32F031x4x6\HAL_lib\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -396,12 +396,12 @@
             <File>
               <FileName>system_MM32F031x4x6_q.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\Source\system_MM32F031x4x6_q.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\Source\system_MM32F031x4x6_q.c</FilePath>
             </File>
             <File>
               <FileName>startup_MM32F031x4x6_q.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\Source\KEIL_StartAsm\startup_MM32F031x4x6_q.s</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\Source\KEIL_StartAsm\startup_MM32F031x4x6_q.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -411,77 +411,77 @@
             <File>
               <FileName>HAL_adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_adc.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_adc.c</FilePath>
             </File>
             <File>
               <FileName>HAL_dma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_dma.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_dma.c</FilePath>
             </File>
             <File>
               <FileName>HAL_exti.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_exti.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_exti.c</FilePath>
             </File>
             <File>
               <FileName>HAL_flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_flash.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_flash.c</FilePath>
             </File>
             <File>
               <FileName>HAL_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_gpio.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_gpio.c</FilePath>
             </File>
             <File>
               <FileName>HAL_i2c.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_i2c.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_i2c.c</FilePath>
             </File>
             <File>
               <FileName>HAL_iwdg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_iwdg.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_iwdg.c</FilePath>
             </File>
             <File>
               <FileName>HAL_misc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_misc.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_misc.c</FilePath>
             </File>
             <File>
               <FileName>HAL_pwr.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_pwr.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_pwr.c</FilePath>
             </File>
             <File>
               <FileName>HAL_rcc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_rcc.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_rcc.c</FilePath>
             </File>
             <File>
               <FileName>HAL_spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_spi.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_spi.c</FilePath>
             </File>
             <File>
               <FileName>HAL_syscfg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_syscfg.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_syscfg.c</FilePath>
             </File>
             <File>
               <FileName>HAL_tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_tim.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_tim.c</FilePath>
             </File>
             <File>
               <FileName>HAL_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_uart.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_uart.c</FilePath>
             </File>
             <File>
               <FileName>HAL_wwdg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\Device\MM32F031x4x6_q\HAL_lib\src\HAL_wwdg.c</FilePath>
+              <FilePath>..\..\..\Device\MM32F031x4x6\HAL_lib\src\HAL_wwdg.c</FilePath>
             </File>
           </Files>
         </Group>
