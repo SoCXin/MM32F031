@@ -6,16 +6,6 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
 
 #include "HAL_device.h"
@@ -65,24 +55,28 @@ int main(void)
     u8 t;
     u8 len;
     u16 times = 0;
-
     delay_init();
     LED_Init();
     uart_nvic_init(115200);
-
-    while(1) {
-        if(UART_RX_STA & 0x8000) {
+    while(1) 
+		{
+        if(UART_RX_STA & 0x8000) 
+				{
             len = UART_RX_STA & 0x3fff;                                         //得到此次接收到的数据长度
             UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n您发送的消息为:\r\n"));
-            for(t = 0; t < len; t++) {
+            for(t = 0; t < len; t++) 
+						{
                 while((UART1->CSR & UART_IT_TXIEN) == 0);                       //等待发送结束
                 UART1->TDR = UART_RX_BUF[t];
             }
             UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n\r\n"));        //插入换行
             UART_RX_STA = 0;
-        } else {
+        } 
+				else 
+				{
             times++;
-            if(times % 5000 == 0) {
+            if(times % 5000 == 0) 
+						{
                 UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nMini Board 串口实验\r\n"));
             }
             if(times % 200 == 0) UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入数据,以回车键结束\r\n"));
