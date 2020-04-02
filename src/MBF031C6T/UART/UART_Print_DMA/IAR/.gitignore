@@ -16,5 +16,6 @@ Debug/
 *.txt
 *.lst
 *.dep
+*.ewt
 !*.ewp
 !*.eww

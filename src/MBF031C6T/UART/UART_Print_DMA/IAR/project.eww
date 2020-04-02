@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\UART_Receive_DMA.ewp</path>
+    <path>$WS_DIR$\project.ewp</path>
   </project>
   <batchBuild/>
 </workspace>
