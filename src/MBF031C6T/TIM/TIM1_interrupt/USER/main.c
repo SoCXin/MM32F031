@@ -37,7 +37,7 @@
 #define LED1_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_5)	// PB5
 #define LED1_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_5))?(GPIO_ResetBits(GPIOB,GPIO_Pin_5)):(GPIO_SetBits(GPIOB,GPIO_Pin_5))	// PB5
 
-void LED_Init(void);
+void GPIO_init(void);
 
 void Tim1_UPCount_init(u16 Prescaler, u16 Period);
 
@@ -54,7 +54,7 @@ u8 timeflag = 0;
 int main(void)
 {
 
-    LED_Init();
+    GPIO_init();
     Tim1_UPCount_init(SystemCoreClock / 10000 - 1, 9999);
     while(1) {
         /* 等待定时器溢出 */
@@ -151,7 +151,7 @@ void GPIO_Clock_Set(GPIO_TypeDef* GPIOx, FunctionalState NewState)
 **输入参数 ：无
 **输出参数 ：无
 ********************************************************************************************************/
-void LED_Init(void)
+void GPIO_init(void)
 {
 
     GPIO_InitTypeDef  GPIO_InitStructure;

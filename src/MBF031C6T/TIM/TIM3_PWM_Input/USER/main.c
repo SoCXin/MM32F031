@@ -18,7 +18,7 @@ void delay_init(void);
 void delay_ms(__IO uint32_t nTime);
 void TimingDelay_Decrement(void);
 void TIM2_PWM_Init(u16 arr, u16 psc);
-void TIM3_PWMINPUT_INIT(u16 arr, u16 psc);
+void Tim3_PWMinput_init(u16 arr, u16 psc);
 
 static __IO uint32_t TimingDelay;
 extern u32 SystemCoreClock;
@@ -40,7 +40,7 @@ int main(void)
     uart_initwBaudRate(115200);
     TIM2_PWM_Init(1000 - 1, SystemCoreClock / 1000000 - 1);                     //1KHZ周期
     TIM_SetCompare3(TIM2, 600);                                                 //设置占空比  pa2
-    TIM3_PWMINPUT_INIT(0xffff, SystemCoreClock / 1000000 - 1);                  //pwm输入初始化以1M的频率捕捉
+    Tim3_PWMinput_init(0xffff, SystemCoreClock / 1000000 - 1);                  //pwm输入初始化以1M的频率捕捉
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "请连接MiniBoard上的PA6(Ain4)与PB10(K3)\r\n"));
     while(1) {
         delay_ms(500);
@@ -192,13 +192,13 @@ void TIM2_PWM_Init(u16 arr, u16 psc)                                            
 }
 
 /********************************************************************************************************
-**函数信息 ：void TIM3_PWMINPUT_INIT(u16 arr,u16 psc)
+**函数信息 ：void Tim3_PWMinput_init(u16 arr,u16 psc)
 **功能描述 ：TIM3 PWM初始化
 **输入参数 ：u16 arr,u16 psc
 **输出参数 ：
 **常用函数 ：
 ********************************************************************************************************/
-void TIM3_PWMINPUT_INIT(u16 arr, u16 psc)                                       //用T3的CH1 APB1  PA6    AF1
+void Tim3_PWMinput_init(u16 arr, u16 psc)                                       //用T3的CH1 APB1  PA6    AF1
 {
 
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
