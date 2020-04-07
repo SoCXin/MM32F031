@@ -1,10 +1,10 @@
 /**
 ******************************************************************************
-* @file     main.c
-* @author   AE team
-* @version  V1.1.1
-* @date     15/05/2019
-* @brief
+* @file     init.c
+* @author   Qitas
+* @version  V1.0.0
+* @date     02/04/2020
+* @brief   
 ******************************************************************************
 */
 
@@ -27,12 +27,13 @@ char printBuf[100];
 **输入参数 ：
 **输出参数 ：
 ********************************************************************************************************/
+
 int main(void)
 {
     //注意：串口调试助手不能勾选发送新行
     u8 i;
 
-    uart_initwBaudRate(115200);
+    uart_initwBaudRate(9600);
     DMA_Configuration();                                                        //UART DMA配置
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入10数字!\r\n"));
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "串口助手不能勾选发送新行!\r\n"));
