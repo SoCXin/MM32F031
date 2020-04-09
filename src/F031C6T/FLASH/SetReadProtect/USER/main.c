@@ -6,17 +6,8 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
+
 #include "HAL_device.h"
 #include "HAL_conf.h"
 
@@ -25,8 +16,6 @@ void delay_init(void);
 void delay_ms(__IO uint32_t nTime);
 void TimingDelay_Decrement(void);
 void LED_Init(void);
-
-u8 FLASH_Program(void);
 
 static __IO uint32_t TimingDelay;
 #define BANK1_WRITE_START_ADDR  ((uint32_t)0x08002800)
@@ -52,13 +41,12 @@ volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
 
 
 
-
-
 int FLASH_EnableFullMainFlashReadOutProtect(void);
 uint32_t CheckReadProtect(void);
 
 //            void _enable_irq(void)  ;  //清除PRIMASK值
 //            void _disable_irq(void) ;  //设置PRIMASK值
+
 void SoftReset(void)
 {
     //__set_FAULTMASK(1);//For Cortex-M3,M4  Disable Interrupt
@@ -79,7 +67,6 @@ int main(void)
     u32 getresult = 0;
     delay_init();
     LED_Init();
-
     // Enable the Read Protect
     t = CheckReadProtect();
     if (t == 0) { //not protect
@@ -95,28 +82,24 @@ int main(void)
     } else {
         //chip is set protect before
         getresult = 1;
-        //TO DO
         //need to Set ReadProtectDisable
     }
-
-    if (getresult == 0) { //success
+    if (getresult == 0) {  //success
         {
             LED1_TOGGLE();
-            LED2_TOGGLE();
-            LED3_TOGGLE();
-            LED4_TOGGLE();
             delay_ms(500);
         }
-    } else { //fail
-        while (1) {
-            LED1_TOGGLE();
+    } 
+    else 
+    { //fail
+        while (1) 
+        {
             LED2_TOGGLE();
-            LED3_TOGGLE();
-            LED4_TOGGLE();
             delay_ms(100);
         }
     }
-    while (1) {           //无限循环
+    while (1) 
+    {      
         LED3_TOGGLE();
         LED4_TOGGLE();
         delay_ms(100);
@@ -147,9 +130,6 @@ uint32_t CheckReadProtect(void)
     uint32_t protectstatus = 0;
     u16 data1;
     int i = 0;
-
-
-
     if ((FLASH->OBR & 0x02) != (uint32_t)RESET) {
         // Read Protect on 0x1FFFF800 is set
         protectstatus = 1;

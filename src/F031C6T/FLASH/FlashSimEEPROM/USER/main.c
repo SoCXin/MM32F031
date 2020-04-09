@@ -6,17 +6,8 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
+
 #include "HAL_device.h"
 #include "HAL_conf.h"
 
@@ -35,19 +26,19 @@ uint32_t Data = 0x12345679;
 volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
 
 #define LED4_ON()  GPIO_ResetBits(GPIOA,GPIO_Pin_15)	// PA15
-#define LED4_OFF()  GPIO_SetBits(GPIOA,GPIO_Pin_15)	// PA15
+#define LED4_OFF()  GPIO_SetBits(GPIOA,GPIO_Pin_15)		// PA15
 #define LED4_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_15))?(GPIO_ResetBits(GPIOA,GPIO_Pin_15)):(GPIO_SetBits(GPIOA,GPIO_Pin_15)) // PA15
 
-#define LED3_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_3)	// PB3
-#define LED3_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_3)	// PB3
+#define LED3_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_3)		// PB3
+#define LED3_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_3)		// PB3
 #define LED3_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_3))?(GPIO_ResetBits(GPIOB,GPIO_Pin_3)):(GPIO_SetBits(GPIOB,GPIO_Pin_3))	// PB3
 
-#define LED2_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_4)	// PB4
-#define LED2_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_4)	// PB4
+#define LED2_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_4)		// PB4
+#define LED2_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_4)		// PB4
 #define LED2_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_4))?(GPIO_ResetBits(GPIOB,GPIO_Pin_4)):(GPIO_SetBits(GPIOB,GPIO_Pin_4))	// PB4
 
-#define LED1_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_5)	// PB5
-#define LED1_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_5)	// PB5
+#define LED1_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_5)		// PB5
+#define LED1_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_5)		// PB5
 #define LED1_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_5))?(GPIO_ResetBits(GPIOB,GPIO_Pin_5)):(GPIO_SetBits(GPIOB,GPIO_Pin_5))	// PB5
 
 
