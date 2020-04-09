@@ -17,7 +17,7 @@ void delay_ms(__IO uint32_t nTime);
 void TimingDelay_Decrement(void);
 void LED_Init(void);
 
-u8 FLASH_Program(void);
+u8 Modbus_write_word(void);
 
 static __IO uint32_t TimingDelay;
 #define BANK1_WRITE_START_ADDR  ((uint32_t)0x08002800)
@@ -112,7 +112,7 @@ int main(void)
     delay_init();
     LED_Init();
     uart1_init(9600);
-    t = FLASH_Program();
+    t = Modbus_write_word();
 	UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nready\r\n"));
     if(t == 0) {//success
         while(1) {
@@ -170,13 +170,13 @@ void TimingDelay_Decrement(void)
 
 
 /********************************************************************************************************
-**函数信息 ：u8 FLASH_Program(void)
+**函数信息 ：u8 Modbus_write_word(void)
 **功能描述 ：Program FLASH Bank1
 **输入参数 ：
 **输出参数 ：
 **    备注 ：
 ********************************************************************************************************/
-u8 FLASH_Program(void)
+u8 Modbus_write_word(void)
 {
 
     /* Porgram FLASH Bank1 ********************************************************/
