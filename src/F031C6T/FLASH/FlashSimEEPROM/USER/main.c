@@ -41,7 +41,49 @@ volatile FLASH_Status FLASHStatus = FLASH_COMPLETE;
 #define LED1_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_5)		// PB5
 #define LED1_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_5))?(GPIO_ResetBits(GPIOB,GPIO_Pin_5)):(GPIO_SetBits(GPIOB,GPIO_Pin_5))	// PB5
 
+void uart1_init(u32 bound)
+{
+    //GPIO端口设置
+    GPIO_InitTypeDef GPIO_InitStructure;
+    UART_InitTypeDef UART_InitStructure;
+    NVIC_InitTypeDef NVIC_InitStructure;
 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE);                       //使能UART1
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
+
+    //UART1 NVIC 配置
+    NVIC_InitStructure.NVIC_IRQChannel = UART1_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPriority = 3;                             //子优先级3
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;                             //IRQ通道使能
+    NVIC_Init(&NVIC_InitStructure);                                             //根据指定的参数初始化VIC寄存器
+
+    //UART 初始化设置
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1);
+
+    UART_InitStructure.UART_BaudRate = bound;                                   //串口波特率
+    UART_InitStructure.UART_WordLength = UART_WordLength_8b;                    //字长为8位数据格式
+    UART_InitStructure.UART_StopBits = UART_StopBits_1;                         //一个停止位
+    UART_InitStructure.UART_Parity = UART_Parity_No;                            //无奇偶校验位
+    UART_InitStructure.UART_HardwareFlowControl = UART_HardwareFlowControl_None;//无硬件数据流控制
+    UART_InitStructure.UART_Mode = UART_Mode_Rx | UART_Mode_Tx;	                //收发模式
+
+    UART_Init(UART1, &UART_InitStructure);                                      //初始化串口1
+    UART_ITConfig(UART1, UART_IT_RXIEN, ENABLE);                                //开启串口接受中断
+    UART_Cmd(UART1, ENABLE);                                                    //使能串口1
+
+    //UART1_TX   GPIOA.9
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;                                   //PA.9
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;                             //复用推挽输出
+    GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.9
+
+    //UART1_RX	  GPIOA.10初始化
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;                                  //PA10
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;                       //浮空输入
+    GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
+
+}
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief  Erases a specified FLASH page.
 /// @note   This function can be used for all MM32 devices.
@@ -161,7 +203,19 @@ void* exFLASH_ReadEE(u32 pageAddress, u16 len)
     u16* ptr = exFLASH_Locate(pageAddress, len);
     return (ptr == 0) ? 0 : (ptr - len / 2);
 }
-
+void UartSendGroup(u8* buf, u16 len)
+{
+    while(len--)
+    {
+        // UART_SendData(UART1, *buf++);
+        UART1->TDR = *buf++ ;
+        while(!UART_GetFlagStatus(UART1, UART_FLAG_TXEPT));
+        // while ((UART1->SR & UART1_SR_TXE ) != UART1_SR_TXE );
+        // while((UART1->CSR & UART_FLAG_TXEPT) == (uint16_t)RESET);
+    } 
+}
+#include "stdio.h"
+char printBuf[100];
 /********************************************************************************************************
 **函数信息 ：main(void)
 **功能描述 ：
@@ -173,21 +227,20 @@ int main(void)
     u8 t;
     delay_init();
     LED_Init();
-
+    uart1_init(9600);
     t = FLASH_Program();
-
+    UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nready\r\n"));
     if(t == 0) {//success
-        while(1) {
+        while(1) 
+				{
             LED1_TOGGLE();
             LED2_TOGGLE();
-            LED3_TOGGLE();
-            LED4_TOGGLE();
-            delay_ms(5000);
+            delay_ms(500);
+					
         }
     } else {//fail
-        while(1) {
-            LED1_TOGGLE();
-            LED2_TOGGLE();
+        while(1) 				
+				{
             LED3_TOGGLE();
             LED4_TOGGLE();
             delay_ms(100);
@@ -246,25 +299,16 @@ void TimingDelay_Decrement(void)
 ********************************************************************************************************/
 u8 FLASH_Program(void)
 {
-
     /* Porgram FLASH Bank1 ********************************************************/
     /* Unlock the Flash Bank1 Program Erase controller */
     FLASH_Unlock();
-
     /* Clear All pending flags */
     FLASH_ClearFlag(FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR);
-
     FLASH_ErasePage(BANK1_WRITE_START_ADDR);
-
     FLASH_ClearFlag(FLASH_FLAG_EOP );
-
     FLASHStatus = FLASH_ProgramWord(BANK1_WRITE_START_ADDR, Data);
-
     FLASH_ClearFlag(FLASH_FLAG_EOP );
-
     FLASH_Lock();
-
-
     if((*(__IO uint32_t*) BANK1_WRITE_START_ADDR) != Data) {
         return 1;
     }

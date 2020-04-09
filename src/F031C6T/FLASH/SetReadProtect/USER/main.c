@@ -123,7 +123,6 @@ uint32_t CheckWriteProtectblank(void)
     return protectstatus;
 }
 
-
 uint32_t CheckReadProtect(void)
 {
 
@@ -143,8 +142,8 @@ uint32_t CheckReadProtect(void)
         }
     }
     return protectstatus;
-
 }
+
 //portect Full main Flash
 int FLASH_EnableFullMainFlashReadOutProtect(void)
 {
