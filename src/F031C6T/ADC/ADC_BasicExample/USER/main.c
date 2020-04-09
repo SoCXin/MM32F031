@@ -44,7 +44,7 @@ void delay_ms(__IO uint32_t nTime);
 char printBuf[100];
 
 
-void uart_initwBaudRate(u32 bound);
+void uart1_init(u32 bound);
 
 void UartSendGroup(u8* buf, u16 len)
 {
@@ -69,7 +69,7 @@ int main(void)
     u16 ADCVAL;
     float fValue;
     delay_init();
-    uart_initwBaudRate(9600);
+    uart1_init(9600);
     ADCConfig(ADCch0); //use PA0
     while(1) 
     {
@@ -81,7 +81,7 @@ int main(void)
     }
 
 }
-void uart_initwBaudRate(u32 bound)
+void uart1_init(u32 bound)
 {
     //GPIO∂Àø⁄…Ë÷√
     GPIO_InitTypeDef GPIO_InitStructure;

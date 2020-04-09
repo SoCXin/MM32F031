@@ -49,7 +49,7 @@ int main(void)
 {
 
     LED_Init();
-    Tim1_CC1_init(SystemCoreClock / 10000 - 1, 9999);
+    Tim1_CC1_init(SystemCoreClock/10000-1, 19999);  
     while(1) {
         /* 等待定时器溢出 */
         if(timeflag == 1) {
@@ -58,7 +58,8 @@ int main(void)
             LED1_TOGGLE();
             LED2_TOGGLE();
         }
-        if(timeflagcc == 1) {
+        if(timeflagcc == 1) 
+        {
             uiCCCnt++;
             timeflagcc = 0;
             LED3_TOGGLE();
@@ -92,6 +93,7 @@ void TIM1_CC_IRQHandler(void)
         timeflagcc = 1;
     }
 }
+
 void Tim1_Int_Enable(void)
 {
     NVIC_InitTypeDef NVIC_StructInit;
