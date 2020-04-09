@@ -16,7 +16,7 @@ void uart_initwBaudRate(u32 bound);
 void UartSendGroup(u8* buf, u16 len);
 void Tim2_UPCount_test(u16 Prescaler, u16 Period);
 
-unsigned int ucTim2Flag = 0;
+unsigned int g_ms_cnt = 0;
 extern u32 SystemCoreClock;
 char printBuf[100];
 
@@ -33,9 +33,9 @@ int main(void)
     Tim2_UPCount_test(SystemCoreClock/100000-1,99);
     while(1) 
 		{
-				if(ucTim2Flag > 999) 
+				if(g_ms_cnt > 999) 
 				{
-					ucTim2Flag = 0;
+					g_ms_cnt = 0;
 					/*打印当前uiCnt值 */
 					UartSendGroup((u8*)printBuf, sprintf(printBuf, "Tim2=%d s\r\n", uiCnt));
 					uiCnt++;
@@ -96,7 +96,7 @@ void TIM2_IRQHandler(void)
     TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
 
     /*全局标志*/
-    ucTim2Flag++;
+    g_ms_cnt++;
 
 
 }

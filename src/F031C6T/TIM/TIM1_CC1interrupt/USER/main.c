@@ -30,7 +30,7 @@
 
 void LED_Init(void);
 
-void Tim1_CC1_init(u16 Prescaler, u16 Period);
+void Tim1_init(u16 Prescaler, u16 Period);
 
 extern u32 SystemCoreClock;
 
@@ -49,7 +49,7 @@ int main(void)
 {
 
     LED_Init();
-    Tim1_CC1_init(SystemCoreClock/10000-1, 19999);  
+    Tim1_init(SystemCoreClock/10000-1, 19999);  
     while(1) {
         /* 等待定时器溢出 */
         if(timeflag == 1) {
@@ -119,12 +119,12 @@ void Tim1_CC1_Enable(void)
     TIM_ITConfig(TIM1, TIM_IT_CC1, ENABLE);
 }
 /********************************************************************************************************
-**函数信息 ：void Tim1_CC1_init(u16 Period,u16 Prescaler)
+**函数信息 ：void Tim1_init(u16 Period,u16 Prescaler)
 **功能描述 ：配置定时器1向上计数模式
 **输入参数 ：Period 16位计数器重载值,Prescaler 时钟预分频值
 **输出参数 ：无
 ********************************************************************************************************/
-void Tim1_CC1_init(u16 Prescaler, u16 Period)
+void Tim1_init(u16 Prescaler, u16 Period)
 {
     TIM_TimeBaseInitTypeDef TIM_StructInit;
     TIM_OCInitTypeDef  TIM_OCInitStructure;
