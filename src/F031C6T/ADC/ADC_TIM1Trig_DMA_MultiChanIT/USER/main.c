@@ -33,8 +33,8 @@ void LED_Init(void);
 
 #define REFVOLATGE 3.3 //5.0                                                         //Reference voltage, the unit is: V 
 
-#define ADCSCANNUM               3    //u16 ADCScanNumber=0;
-#define AVERAGELEN                   20
+#define ADCSCANNUM                      3    //u16 ADCScanNumber=0;
+#define AVERAGELEN                      20
 u16 varADCavarage[AVERAGELEN][3];
 typedef enum {
     ADCch0                 = ADC_Channel_0,
