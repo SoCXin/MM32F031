@@ -38,7 +38,7 @@ float ADCVolatge;                                                               
 float VDDA_Volatge;
 
 u16 ADCFilterValue;                                                             //Used to store the value of the ADC second-order filter
-//u8 ADCflag;                                                                     //DMA transfer completed flag
+//u8 g_ADC_DMA_flag;                                                                     //DMA transfer completed flag
 u8 ADCFilterflag;                                                               //Filter completed sign
 
 void GPIO_Config_AIN(GPIO_TypeDef* GPIOx, u16 GPIO_Pin_n);
@@ -262,13 +262,13 @@ void Get_ADCVolatge(void)
 }
 void Get_VDDA_Volatge(void)
 {
-    if((ADCFilterValue == 0) || (ADCFilterValue > 4095))
-        ADCFilterValue = 948;
+    if((ADCFilterValue == 0) || (ADCFilterValue > 4095)) ADCFilterValue = 948;
     VDDA_Volatge = (4095 / ((float)ADCFilterValue )) * 1.15;
 }
+
 /*******************************************************************************
 * @name   : DMA1_Channel1_IRQHandler
-* @brief  : When DMA send data, set ADCflag, PA8, clear the interrupt flag, stop the conversion
+* @brief  : When DMA send data, set g_ADC_DMA_flag, PA8, clear the interrupt flag, stop the conversion
 * @param  : void
 * @retval : void
 *******************************************************************************/
@@ -276,7 +276,7 @@ void DMA1_Channel1_IRQHandler(void)
 {
     ADC_SoftwareStartConvCmd(ADC1, DISABLE);                                     //Stop Conversion
     DMA_ClearITPendingBit(DMA1_IT_TC1);                                          //Clear interrupt flag
-    //ADCflag = 1;                                                                //Erected transmission complete flag
+    //g_ADC_DMA_flag = 1;                                                                //Erected transmission complete flag
     ADCFilter();
 }
 

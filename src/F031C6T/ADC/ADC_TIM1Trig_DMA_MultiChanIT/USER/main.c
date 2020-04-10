@@ -58,7 +58,7 @@ void ADCConfig(ADCch ADC_Channel);
 u16 ADCValue[20];                                                               //Used to store ADC conversion value
 float ADCVolatge[3];                                                               //Used to store the voltage value
 u16 ADCFilterValue[3];                                                             //Used to store the value of the ADC second-order filter
-u8 ADCflag = 0;                                                                   //DMA transfer completed flag
+u8 g_ADC_DMA_flag = 0;                                                                   //DMA transfer completed flag
 u8 ADCTrigFilterflag;                                                               //Filter completed sign
 
 void GPIO_Config_AIN(GPIO_TypeDef* GPIOx, u16 GPIO_Pin_n);
@@ -210,8 +210,8 @@ int main(void)
     ADC_ExternalTrigConvCmd(ADC1, ENABLE);
     Tim1_CC1_init(SystemCoreClock / 10000 - 1, 9);//Tim1_CC1_init(SystemCoreClock / 10000 - 1, 9999);
     while(1) {
-        if(ADCflag == 1) {
-            ADCflag = 0;
+        if(g_ADC_DMA_flag == 1) {
+            g_ADC_DMA_flag = 0;
             LED1_TOGGLE();
             LED2_TOGGLE();
             LED3_TOGGLE();
@@ -371,7 +371,7 @@ void Get_ADCVolatge(void)
 
 /*******************************************************************************
 * @name   : DMA1_Channel1_IRQHandler
-* @brief  : When DMA send data, set ADCflag, PA8, clear the interrupt flag, stop the conversion
+* @brief  : When DMA send data, set g_ADC_DMA_flag, PA8, clear the interrupt flag, stop the conversion
 * @param  : void
 * @retval : void
 *******************************************************************************/
@@ -379,7 +379,7 @@ void DMA1_Channel1_IRQHandler(void)
 {
 //    ADC_SoftwareStartConvCmd(ADC1, DISABLE);                                     //Stop Conversion
     DMA_ClearITPendingBit(DMA1_IT_TC1);                                          //Clear interrupt flag
-    ADCflag = 1;                                                                //Erected transmission complete flag
+    g_ADC_DMA_flag = 1;                                                                //Erected transmission complete flag
 
 }
 
