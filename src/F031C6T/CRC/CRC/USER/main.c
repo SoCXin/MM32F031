@@ -6,21 +6,10 @@
 * @date     15/05/2019
 * @brief
 ******************************************************************************
-* @copy
-*
-* THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-* WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-* TIME. AS A RESULT, MindMotion SHALL NOT BE HELD LIABLE FOR ANY
-* DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-* FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-* CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-*
-* <h2><center>&copy; COPYRIGHT 2019 MindMotion</center></h2>
 */
+
 #include "HAL_device.h"
 #include "HAL_conf.h"
-
-
 
 
 #define BUFFER_SIZE    114
@@ -49,7 +38,7 @@ static const uint32_t DataBuffer[BUFFER_SIZE] = /*0x379e9f06*/
     0xad8b9de8, 0x8dc97c26, 0x5c644c45, 0x3ca22c83, 0x1ce00cc1, 0xef1fff3e,
     0xdf7caf9b, 0xbfba8fd9, 0x9ff86e17, 0x7e364e55, 0x2e933eb2, 0x0ed11ef0
 };
-__IO    u32 CRCValue = 0;
+__IO  u32 CRCValue = 0;
 /********************************************************************************************************
 **函数信息 ：int main (void)
 **功能描述 ：开机后，串口打印校验值
@@ -66,14 +55,14 @@ int main(void)
         CRCValue =  CRC_CalcCRC(0x100);
     }
     for(i = 0; i < 10; i++) 
-		{
+	{
         CRC_ResetDR();
         /* Compute the CRC of "DataBuffer" */
         CRCValue = CRC_CalcBlockCRC((uint32_t *)DataBuffer, BUFFER_SIZE);
 				
     }
-
-    while(1) {
+    while(1) 
+    {
         CRC_ResetDR();
         CRCValue =  CRC_CalcCRC(0x100);
     }
