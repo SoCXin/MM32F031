@@ -1,8 +1,6 @@
 del *.bin /s
 del *.lst /s
 del *.txt /s
-del *.uvopt /s
-del *.uvoptx /s
 del *.uvgui.* /s
 del *.uvguix.* /s
 rd obj /s /q
