@@ -68,9 +68,9 @@ void ADCFilter(void);
 void Get_ADCVolatge(void);
 
 ADCch vchan[] = {
-    ADCch0,
-    ADCch4,
-    ADCch5
+    ADCch1,
+    ADCch2,
+    ADCch3
 };
 u32 adc_value = 0;
 extern uint32_t SystemCoreClock;
