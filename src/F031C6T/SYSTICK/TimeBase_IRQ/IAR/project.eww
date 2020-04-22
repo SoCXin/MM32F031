@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\TimeBase_IRQ.ewp</path>
+    <path>$WS_DIR$\project.ewp</path>
   </project>
   <batchBuild/>
 </workspace>
