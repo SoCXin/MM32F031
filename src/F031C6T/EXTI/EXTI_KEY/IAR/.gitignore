@@ -3,6 +3,8 @@ obj/
 listing/
 RTE/
 DebugConfig/
+settings/
+Debug/
 .pio/
 .vscode/
 *.crf
@@ -13,5 +15,7 @@ DebugConfig/
 *.bak
 *.txt
 *.lst
-*.uvgu*
-*.scvd
+*.dep
+*.ewt
+!*.ewp
+!*.eww
