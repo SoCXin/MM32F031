@@ -121,7 +121,8 @@ int main(void)
 void PVD_IRQHandler(void)
 {
 
-    if(EXTI_GetITStatus(EXTI_Line16) != RESET) {
+    if(EXTI_GetITStatus(EXTI_Line16) != RESET) 
+    {
         /* Clear the EXTI line pending bit */
         EXTI_ClearITPendingBit(EXTI_Line16);
         lowpowerflag = 1;
