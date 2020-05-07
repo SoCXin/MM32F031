@@ -3,7 +3,7 @@
 [![sites](http://182.61.61.133/link/resources/SoC.png)](http://SoC.Xin) 
 
 #### [Vendor](https://github.com/SoCXin/Vendor)：[MindMotion](http://www.mm32.com.cn/)
-#### [Cortex](https://github.com/SoCXin/Cortex)：[Cortex M0](https://github.com/SoCXin/CM0) 
+#### [Core](https://github.com/SoCXin/Cortex)：[Cortex M0](https://github.com/SoCXin/CM0) 
 #### [Level](https://github.com/SoCXin/Level)：72MHz 
 
 ## [描述](https://github.com/SoCXin/MM32F031/wiki) 

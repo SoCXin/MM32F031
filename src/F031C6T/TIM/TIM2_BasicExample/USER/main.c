@@ -30,7 +30,7 @@ int main(void)
 {
     unsigned int uiCnt = 0;
     uart_initwBaudRate(115200);
-    Tim2_UPCount_test(SystemCoreClock/100000-1,99);
+    Tim2_UPCount_test(SystemCoreClock/1000000-1,999);
     while(1) 
 		{
 				if(g_ms_cnt > 999) 
