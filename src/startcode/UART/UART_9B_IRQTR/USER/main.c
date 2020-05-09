@@ -3,7 +3,7 @@
 * @file     main.c
 * @author   AE team
 * @version  V1.1.1
-* @date     15/05/2019
+* @date     01/05/2020
 * @brief
 ******************************************************************************
 */
@@ -25,6 +25,11 @@
 
 #define TX_CURR_ENABLE 1
 #endif
+
+#define RS_DIR_PORT         (GPIOB)
+#define RS_DIR_PIN          (GPIO_Pin_11)
+#define RS485_W             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN)
+#define RS485_R             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN)
 
 #define TEST_SELE_B8EN_DISABLE          0
 #define TEST_SELE_B8EN_ENABLE           1
@@ -96,7 +101,9 @@ int main(void)
     RCC_ConfigInit();
     NVIC_ConfigInit();
     Uart_ConfigInit(9600);
-    while(1) {
+    RS485_R;	
+    while(1) 
+    {
 
     }
 }
@@ -160,6 +167,9 @@ void Uart_ConfigInit(u32 bound)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
+    GPIO_InitStructure.GPIO_Pin = RS_DIR_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
 #if TEST_SELE_B8EN !=  TEST_SELE_B8EN_DISABLE
 
 #if TEST_SELT_B8TXD !=  TEST_SELT_B8TXD_LOW

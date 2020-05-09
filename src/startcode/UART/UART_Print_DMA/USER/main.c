@@ -23,6 +23,10 @@ u8 SendBuff[(TEXT_LENTH + 2) * 100];
 char printBuf[100];
 u16 DMA1_MEM_LEN;
 
+#define RS_DIR_PORT         (GPIOB)
+#define RS_DIR_PIN          (GPIO_Pin_11)
+#define RS485_W             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN)
+#define RS485_R             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN)
 /********************************************************************************************************
 **函数信息 ：main(void)
 **功能描述 ：
@@ -33,8 +37,9 @@ int main(void)
 {
     u16 i;
     u8 t = 0;
-
     uart_initwBaudRate(115200);
+    
+    RS485_W;
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nDMA SEND DATA:\r\n"));
     MYDMA_Config(DMA1_Channel2, (u32)&UART1->TDR, (u32)SendBuff, (TEXT_LENTH + 2) * 10); //DMA1通道2,外设为串口1,存储器为SendBuff,长(TEXT_LENTH+2)*10.
     for(i = 0; i < (TEXT_LENTH + 2) * 100; i++) {                               //填充ASCII字符集数据
@@ -76,6 +81,8 @@ void uart_initwBaudRate(u32 bound)
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE);                       //使能UART1时钟
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOA时钟
+    
     //UART 初始化设置
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1);
@@ -101,6 +108,9 @@ void uart_initwBaudRate(u32 bound)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;                       //浮空输入
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
 
+    GPIO_InitStructure.GPIO_Pin = RS_DIR_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
 }
 
 /********************************************************************************************************
