@@ -119,6 +119,11 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>ST-LINKIII-KEIL_SWO</Key>
+          <Name>-U303030303030303030303031 -O8398 -SF4000 -C0 -A0 -I0 -HNlocalhost -HP7184 -P2 -N00("ARM CoreSight SW-DP") -D00(0BB11477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0MM32F031xxn_32.FLM -FS08000000 -FL08000 -FP0($$Device:MM32F031C6T$Flash\MM32F031xxn_32.FLM)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -152,7 +157,7 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>264</LineNumber>
+          <LineNumber>265</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>134218570</Address>
           <ByteObject>0</ByteObject>
@@ -163,7 +168,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\USER\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Debug\../USER/main.c\264</Expression>
+          <Expression>\\Debug\../USER/main.c\265</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -187,7 +192,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>

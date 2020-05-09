@@ -4,7 +4,7 @@
 * @author   Qitas
 * @version  V1.0.0
 * @date     02/04/2020
-* @brief
+* @brief    测试单通道AD，转换为电压值
 ******************************************************************************
 */
 
@@ -30,6 +30,7 @@ typedef enum {
     ADCchTemp              = ADC_Channel_TempSensor,
     ADCchVref              = ADC_Channel_Vrefint,
 } ADCch;
+
 void ADCConfig(ADCch ADC_Channel);
 u16 Get_Adc_Average(uint8_t times);
 
@@ -70,7 +71,7 @@ int main(void)
     float fValue;
     delay_init();
     uart1_init(9600);
-    ADCConfig(ADCch0); //use PA0
+    ADCConfig(ADCchVref); //use PA0
     while(1) 
     {
         ADCVAL = Get_Adc_Average(5);
@@ -291,7 +292,8 @@ u16 Get_Adc_Average(uint8_t times)
     u32 temp_val = 0;
     u8 t;
     u8 delay;
-    for(t = 0; t < times; t++) {
+    for(t = 0; t < times; t++) 
+    {
         temp_val += ADC1_SingleChannel_Get();
         for(delay = 0; delay < 100; delay++);
     }

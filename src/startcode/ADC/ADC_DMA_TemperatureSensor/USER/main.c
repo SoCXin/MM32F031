@@ -253,6 +253,7 @@ void ADCFilter(void)                                                            
 #define M8(adr)  (*((vu8  *) (adr)))
 #define M16(adr) (*((vu16 *) (adr)))
 #define M32(adr) (*((vu32 *) (adr)))
+
 void Get_Temperature(void)
 {
     float slTemp, slTempTrimValue;
