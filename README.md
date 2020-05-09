@@ -12,8 +12,7 @@
 
 本产品产品系列工作电压为 2.0V ∼ 5.5V，工作温度范围包含-40◦C ∼ +85◦C 常规型和-40◦C ∼ +105◦C 扩展型。多种省电工作模式保证低功耗应用的要求。
 
-产品提供LQFP48、LQFP32、QFN32、QFN20 和 TSSOP20 共5种封装形式。
-
+[![sites](docs/MM32F031.png)](https://github.com/SoCXin/MM32F031) 
 
 ### [资源收录](https://github.com/SoCXin/MM32F031)
 
@@ -22,6 +21,6 @@
 
 ### [选型建议](https://github.com/SoCXin)
 
-[MM32F031](https://github.com/SoCXin/MM32F031) 拥有不错的性价比，配置相对主流，可用于替换STM8S/E8051/STM32F0。
+[MM32F031](https://github.com/SoCXin/MM32F031) 作为MCU配置中规中矩，可用于替换STM8S/E8051/STM32F0。
 
 ###  [SoC芯平台](http://SoC.Xin) 

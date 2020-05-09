@@ -20,6 +20,10 @@ void uart_initwBaudRate(u32 bound);
 
 char printBuf[100];
 
+#define RS_DIR_PORT         (GPIOB)
+#define RS_DIR_PIN          (GPIO_Pin_11)
+#define RS485_W             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN)
+#define RS485_R             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN)
 /********************************************************************************************************
 **函数信息 ：int main (void)
 **功能描述 ：开机后，使用串口助手发送10个数字，注意串口助手不能选择发送新行
@@ -32,7 +36,6 @@ int main(void)
     //注意：串口调试助手不能勾选发送新行
     u8 i;
     uart_initwBaudRate(115200);
-
     DMA_Configuration();                                                        //UART DMA配置
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入10个数字!\r\n"));
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "串口助手不能勾选发送新行!\r\n"));
@@ -65,6 +68,7 @@ void uart_initwBaudRate(u32 bound)
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE);                       //使能UART1时钟
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIO
     //UART 初始化设置
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1);
@@ -90,6 +94,9 @@ void uart_initwBaudRate(u32 bound)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;                       //浮空输入
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
 
+    GPIO_InitStructure.GPIO_Pin = RS_DIR_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
 }
 
 
@@ -145,8 +152,9 @@ void UartSendByte(u8 dat)
 ********************************************************************************************************/
 void UartSendGroup(u8* buf, u16 len)
 {
-    while(len--)
-        UartSendByte(*buf++);
+    RS485_W;
+    while(len--)  UartSendByte(*buf++);
+    RS485_R;
 }
 
 /**
