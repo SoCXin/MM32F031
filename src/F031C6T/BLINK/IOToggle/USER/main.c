@@ -189,19 +189,6 @@ void LED_Init(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(LED1_PORT, &GPIO_InitStructure);
-
-    // GPIO_Clock_Set(GPIOA, ENABLE);                                              //开启GPIOA时钟
-    // GPIO_Clock_Set(GPIOB, ENABLE);                                              //开启GPIOB时钟
-    // GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_15;
-    // GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    // GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    // GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    // GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
-    // GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    // GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    // GPIO_Init(GPIOB, &GPIO_InitStructure);
-
     LED1_ON();
     LED2_ON();
     LED3_ON();
@@ -212,13 +199,6 @@ void LED_Init(void)
 * @}
 */
 
-/**
-* @}
-*/
 
-/**
-* @}
-*/
-
-/*-------------------------(C) COPYRIGHT 2019 MindMotion ---------------------*/
+/*-------------------------(C) COPYRIGHT 2020 Qitas ---------------------*/
 

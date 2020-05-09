@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\IOKey.ewp</path>
+    <path>$WS_DIR$\project.ewp</path>
   </project>
   <batchBuild/>
 </workspace>
