@@ -12,6 +12,11 @@
 #include "HAL_conf.h"
 #include "stdio.h"
 
+#define RS_DIR_PORT         (GPIOB)
+#define RS_DIR_PIN          (GPIO_Pin_11)
+#define RS485_R             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOB,GPIO_Pin_5)
+#define RS485_W             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOB,GPIO_Pin_5)
+
 void UartInit_Loop(void);
 void UartSendGroup(u8* buf, u16 len);
 void Uart1RxTest(UART_TypeDef* UARTx);
@@ -25,12 +30,22 @@ char printBuf[100];
 **输入参数 ：
 **输出参数 ：
 ********************************************************************************************************/
+void delay(u16 cnt)
+{
+    __IO uint32_t i = 0;
+    for (i = cnt; i != 0; i--) 
+    {
+    }
+}
 
 int main(void)
 {
-    UartInit_Loop();         //UART1的发送，可以通过串口软件打印UART OK
-    while(1) {
-        Uart1RxTest(UART1);  //UART1的接收，在串口软件中输入字符，可以通过打印验证接收的数据是否正确
+    UartInit_Loop();                                        //UART1的发送，可以通过串口软件打印UART OK
+    while(1) 
+    {
+        UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
+        delay(1000);
+        // Uart1RxTest(UART1);  //UART1的接收，在串口软件中输入字符，可以通过打印验证接收的数据是否正确
     }
 }
 
@@ -46,9 +61,12 @@ void UartInit_Loop(void)
     //GPIO端口设置
     GPIO_InitTypeDef GPIO_InitStructure;
     UART_InitTypeDef UART_InitStructure;
+    //485控制使能
+ 
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE);                       //使能UART1时钟
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
+		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOA时钟
     //UART 初始化设置
 //    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
 //    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
@@ -73,6 +91,11 @@ void UartInit_Loop(void)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;                                  //PA10
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;                       //浮空输入
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
+		
+    GPIO_InitStructure.GPIO_Pin  =  RS_DIR_PIN;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
 
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
 }
@@ -89,7 +112,7 @@ void Uart1RxTest(UART_TypeDef* UARTx)
     unsigned char temp;
     temp = inbyte(UARTx);
     if(temp != 0) 
-		{
+    {
         UartSendGroup((u8*)printBuf, sprintf(printBuf, "您输入的数据为:%c\r\n", temp));
     }
 }
@@ -103,8 +126,9 @@ void Uart1RxTest(UART_TypeDef* UARTx)
 unsigned char inbyte(UART_TypeDef* UARTx)
 {
     unsigned char temp;
-
-    while(1) {
+    RS485_R;
+    while(1) 
+    {
         if(UART_GetITStatus(UARTx, UART_IT_RXIEN)) {
             UART_ClearITPendingBit(UARTx, UART_IT_RXIEN);                       //清除接受中断位
             break;
@@ -140,8 +164,9 @@ void UartSendByte(u8 dat)
 ********************************************************************************************************/
 void UartSendGroup(u8* buf, u16 len)
 {
-    while(len--)
-        UartSendByte(*buf++);
+    RS485_W;
+    while(len--) UartSendByte(*buf++);
+    RS485_R;
 }
 
 /**
