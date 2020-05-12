@@ -21,9 +21,9 @@ void LED_Init(void);
 static __IO uint32_t TimingDelay;
 
 #define LED4_PORT               (GPIOB)
-#define LED4_PIN                (GPIO_Pin_5)
+#define LED4_PIN                (GPIO_Pin_6)
 #define LED3_PORT               (GPIOB)
-#define LED3_PIN                (GPIO_Pin_4)
+#define LED3_PIN                (GPIO_Pin_7)
 #define LED2_PORT               (GPIOB)
 #define LED2_PIN                (GPIO_Pin_3)
 #define LED1_PORT               (GPIOA)

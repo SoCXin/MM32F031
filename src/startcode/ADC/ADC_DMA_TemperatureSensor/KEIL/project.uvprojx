@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>Debug</TargetName>
+      <TargetName>mmlink</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>5060750::V5.06 update 6 (build 750)::ARMCC</pArmCC>
@@ -488,7 +488,7 @@
       </Groups>
     </Target>
     <Target>
-      <TargetName>Release</TargetName>
+      <TargetName>stlink</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>5060750::V5.06 update 6 (build 750)::ARMCC</pArmCC>
@@ -530,8 +530,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\obj\DebugInFlash\</OutputDirectory>
-          <OutputName>MM32</OutputName>
+          <OutputDirectory>.\obj\Debug\</OutputDirectory>
+          <OutputName>Debug</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -818,7 +818,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER  MM32F031NVERSION</Define>
+              <Define>USE_STDPERIPH_DRIVER  MM32F031NVERSION DEBUG</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\Device\CMSIS\KEIL_CORE;..\..\..\Device\MM32F031x4x6\Include;..\..\..\Device\MM32F031x4x6\HAL_lib\inc</IncludePath>
             </VariousControls>

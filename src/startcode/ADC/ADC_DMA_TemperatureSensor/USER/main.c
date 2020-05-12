@@ -249,7 +249,12 @@ void ADCFilter(void)                                                            
     lADCFilterValue = 0;
 }
 
-
+/********************************************************************************************************
+**函数信息 ： 
+**功能描述 ：
+**输入参数 ：无
+**输出参数 ：无
+********************************************************************************************************/
 #define M8(adr)  (*((vu8  *) (adr)))
 #define M16(adr) (*((vu16 *) (adr)))
 #define M32(adr) (*((vu32 *) (adr)))
@@ -257,11 +262,9 @@ void ADCFilter(void)                                                            
 void Get_Temperature(void)
 {
     float slTemp, slTempTrimValue;
-
     slTemp = (float)(ADCFilterValue & 0xfff);
     slTempTrimValue = (float)(0x0fff & (M16(0x1FFFF7F6)));
-
-    ADCTempValue = (float)(slTemp - slTempTrimValue ) / (float)5.95 + (float)25; //for VDDA&VDD = 3.3V
+    ADCTempValue = (float)(slTemp - slTempTrimValue) / (float)5.95 + (float)25; //for VDDA&VDD = 3.3V
 }
 /*******************************************************************************
 * @name   : DMA1_Channel1_IRQHandler
@@ -273,7 +276,7 @@ void DMA1_Channel1_IRQHandler(void)
 {
     ADC_SoftwareStartConvCmd(ADC1, DISABLE);                                     //Stop Conversion
     DMA_ClearITPendingBit(DMA1_IT_TC1);                                          //Clear interrupt flag
-    //ADCflag = 1;                                                                //Erected transmission complete flag
+    //ADCflag = 1;                                                               //Erected transmission complete flag
     ADCFilter();
 }
 
