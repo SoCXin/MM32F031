@@ -13,4 +13,5 @@ DebugConfig/
 *.bak
 *.txt
 *.lst
+*.scvd
 *.uvgu*
