@@ -1,9 +1,9 @@
 /**
 ******************************************************************************
 * @file     main.c
-* @author   AE team
-* @version  V1.1.1
-* @date     15/05/2019
+* @author   Qitas
+* @version  V1.1
+* @date     15/05/2020
 * @brief
 ******************************************************************************
 */
@@ -321,7 +321,7 @@ void EXTI2_3_IRQHandler(void)
 ********************************************************************************************************/
 void EXTI4_15_IRQHandler(void)
 {
-    if(EXTI_GetFlagStatus(EXTI_Line5) != RESET) 
+    if(EXTI_GetITStatus(EXTI_Line5) != RESET) 
     {
         for(EXTI_DELAY = 0; EXTI_DELAY < 100; EXTI_DELAY++);
         if(KEY1 == 1) 
@@ -329,7 +329,7 @@ void EXTI4_15_IRQHandler(void)
             LED3_TOGGLE();
             LED2_TOGGLE();
         }
-        EXTI_ClearFlag(EXTI_Line5);   
+        EXTI_ClearITPendingBit(EXTI_Line5);   
     } 
     if(EXTI_GetFlagStatus(EXTI_Line10) != RESET) 
     {
@@ -355,13 +355,6 @@ void EXTI4_15_IRQHandler(void)
 * @}
 */
 
-/**
-* @}
-*/
 
-/**
-* @}
-*/
-
-/*-------------------------(C) COPYRIGHT 2019 MindMotion ----------------------*/
+/*-------------------------(C) COPYRIGHT   ----------------------*/
 
