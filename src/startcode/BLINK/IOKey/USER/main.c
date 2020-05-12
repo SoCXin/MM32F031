@@ -53,10 +53,6 @@ static __IO uint32_t TimingDelay;
 #define KEY1_PIN                (GPIO_Pin_5)
 #define V_KEY1                  GPIO_ReadInputDataBit(KEY1_PORT,KEY1_PIN)		//读取按键1
 
-#define WET1_PORT               (GPIOB)
-#define WET1_PIN                (GPIO_Pin_14)
-#define V_WET1                  GPIO_ReadInputDataBit(WET1_PORT,WET1_PIN)	
-
 #define KEY1  GPIO_ReadInputDataBit(KEY1_PORT,KEY1_PIN)//读取按键1
 #define WK_UP   GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0)//读取按键2 
 #define KEY3  GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_10)//读取按键3
