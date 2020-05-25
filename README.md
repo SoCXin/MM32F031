@@ -1,6 +1,6 @@
 ﻿# [MM32F031](https://github.com/SoCXin/MM32F031) 
 
-[![sites](http://182.61.61.133/link/resources/SoC.png)](http://SoC.Xin) 
+[![sites](http://182.61.61.133/link/resources/SoC.png)](http://www.SoC.Xin) 
 
 #### [Vendor](https://github.com/SoCXin/Vendor)：[MindMotion](http://www.mm32.com.cn/)
 #### [Core](https://github.com/SoCXin/Cortex)：[Cortex M0](https://github.com/SoCXin/CM0) 
@@ -21,6 +21,8 @@
 
 ### [选型建议](https://github.com/SoCXin)
 
-[MM32F031](https://github.com/SoCXin/MM32F031) 作为MCU配置中规中矩，可用于替换STM8S/E8051/STM32F0。
+[MM32F031](https://github.com/SoCXin/MM32F031) 定位中低规格MCU，Cortex M0内核的外设配置中规中矩，主频同类中较高达到了72M，产品开发可用于替换原有的STM8S/E8051/STM32F0等。
 
-###  [SoC芯平台](http://SoC.Xin) 
+[MM32F031](https://github.com/SoCXin/MM32F031)相比于同系列 [MM32F032](https://github.com/SoCXin/MM32F032) 同等型号多了RTC功能。
+
+###  [SoC芯平台](http://www.SoC.Xin) 
