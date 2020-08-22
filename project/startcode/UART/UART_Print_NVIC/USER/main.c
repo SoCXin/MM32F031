@@ -57,7 +57,7 @@ int main(void)
     u16 times = 0;
     delay_init();
     LED_Init();
-    uart_nvic_init(115200);
+    uart_nvic_init(9600);
     while(1) 
 		{
         if(UART_RX_STA & 0x8000) 

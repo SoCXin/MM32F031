@@ -12,10 +12,10 @@
 #include "HAL_conf.h"
 #include "stdio.h"
 
-#define RS_DIR_PORT         (GPIOB)
-#define RS_DIR_PIN          (GPIO_Pin_11)
-#define RS485_R             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOB,GPIO_Pin_5)
-#define RS485_W             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOB,GPIO_Pin_5)
+#define RS_DIR_PORT         (GPIOA)
+#define RS_DIR_PIN          (GPIO_Pin_7)
+#define        RS485_R      GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOA,GPIO_Pin_6);GPIO_ResetBits(GPIOA,GPIO_Pin_5)
+#define      RS485_W         GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOA,GPIO_Pin_6);GPIO_ResetBits(GPIOA,GPIO_Pin_5)
 
 void UartInit_Loop(void);
 void UartSendGroup(u8* buf, u16 len);
@@ -23,7 +23,7 @@ void Uart1RxTest(UART_TypeDef* UARTx);
 unsigned char inbyte(UART_TypeDef* UARTx);
 
 char printBuf[100];
-
+static __IO uint32_t TimingDelay;
 /********************************************************************************************************
 **函数信息 ：int main (void)
 **功能描述 ：开机后，ARMLED闪动
@@ -37,15 +37,49 @@ void delay(u16 cnt)
     {
     }
 }
+/*******************************************************************************
+**函数信息 ：void delay_init(void)
+**功能描述 ：初始化延迟函数
+**输入参数 ：
+**输出参数 ：
+*******************************************************************************/
+void delay_init(void)
+{
+    if (SysTick_Config(SystemCoreClock / 1000)) {
+        /* Capture error */
+        while (1);
+    }
+    /* Configure the SysTick handler priority */
+    NVIC_SetPriority(SysTick_IRQn, 0x0);//SysTick中断优先级设置
+}
+/********************************************************************************************************
+**函数信息 ：delay_ms(__IO uint32_t nTime)
+**功能描述 ：程序应用调用延时，使用systick
+**输入参数 ：nTime：延时
+**输出参数 ：无
+********************************************************************************************************/
+void delay_ms(__IO uint32_t nTime)
+{
+    TimingDelay = nTime;
+
+    while(TimingDelay != 0);
+}
 
 int main(void)
 {
+		delay_init();
     UartInit_Loop();                                        //UART1的发送，可以通过串口软件打印UART OK
     while(1) 
     {
+//				RS485_W;
+//			delay_ms(300);
+////				delay(1000);
+//				RS485_R;
+//				delay(1000);
+			delay_ms(300);
         UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
-        delay(1000);
-        // Uart1RxTest(UART1);  //UART1的接收，在串口软件中输入字符，可以通过打印验证接收的数据是否正确
+//        delay(1000);
+//        Uart1RxTest(UART1);  //UART1的接收，在串口软件中输入字符，可以通过打印验证接收的数据是否正确
     }
 }
 
@@ -70,7 +104,9 @@ void UartInit_Loop(void)
     //UART 初始化设置
 //    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
 //    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
-
+		GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_3);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_3);	
+	
     UART_InitStructure.UART_BaudRate = 9600;                                  //串口波特率
     UART_InitStructure.UART_WordLength = UART_WordLength_8b;                    //字长为8位数据格式
     UART_InitStructure.UART_StopBits = UART_StopBits_1;                         //一个停止位
@@ -82,21 +118,26 @@ void UartInit_Loop(void)
     UART_Cmd(UART1, ENABLE);                                                    //使能串口1
 
     //UART1_TX   GPIOA.9
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;                                   //PA.9
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;                                   //PA.9
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;                             //复用推挽输出
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING ;                             //复用推挽输出
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.9
 
     //UART1_RX	  GPIOA.10初始化
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;                                  //PA10
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;                       //浮空输入
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;                                  //PA10
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;                       	//浮空输入
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
+		
+
 		
     GPIO_InitStructure.GPIO_Pin  =  RS_DIR_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
-
+    GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_6|GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
 }
 
@@ -113,7 +154,7 @@ void Uart1RxTest(UART_TypeDef* UARTx)
     temp = inbyte(UARTx);
     if(temp != 0) 
     {
-        UartSendGroup((u8*)printBuf, sprintf(printBuf, "您输入的数据为:%c\r\n", temp));
+        UartSendGroup((u8*)printBuf, sprintf(printBuf, "%c\r\n", temp));
     }
 }
 
@@ -165,7 +206,9 @@ void UartSendByte(u8 dat)
 void UartSendGroup(u8* buf, u16 len)
 {
     RS485_W;
+		delay(1);
     while(len--) UartSendByte(*buf++);
+		delay(1);
     RS485_R;
 }
 
