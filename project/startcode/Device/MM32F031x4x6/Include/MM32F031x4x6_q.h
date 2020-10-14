@@ -41,7 +41,7 @@ be based on direct access to peripherals registers
 * @brief In the following line adjust the value of External High Speed oscillator (HSE)
 used in your application
 */
-#define HSE_Value    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz*/
+#define HSE_Value    ((uint32_t)16000000) /*!< Value of the External oscillator in Hz*/
 #define HSE_VALUE    HSE_Value
 /**
 * @brief In the following line adjust the External High Speed oscillator (HSE) Startup

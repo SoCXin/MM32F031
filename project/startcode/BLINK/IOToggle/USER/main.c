@@ -56,20 +56,20 @@ static __IO uint32_t TimingDelay;
 
 #define RS_DIR_PORT         (GPIOA)
 #define RS_DIR_PIN          (GPIO_Pin_7)
-#define  RS485_W            GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_SetBits(GPIOA,GPIO_Pin_6);GPIO_ResetBits(GPIOA,GPIO_Pin_5)
-#define  RS485_R            GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOA,GPIO_Pin_6);GPIO_SetBits(GPIOA,GPIO_Pin_5)
+#define   RS485_R           GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_SetBits(GPIOA,GPIO_Pin_6);GPIO_ResetBits(GPIOA,GPIO_Pin_5)
+#define   RS485_W           GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOA,GPIO_Pin_6);GPIO_SetBits(GPIOA,GPIO_Pin_5)
 
 
 #define KEY1                 GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13)           //读取按键1
-#define WK_UP                GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0)            //读取按键2 
+#define WK_UP                GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0)            //读取按键2
 #define KEY3                 GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_10)           //读取按键3
 #define KEY4                 GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_11)           //读取按键4
 
-#define KEY1_PRES            1                                                  //KEY1 
-#define WKUP_PRES            2                                                  //WK_UP  
-#define KEY3_PRES            3                                                  //KEY3 
-#define KEY4_PRES            4                                                  //KEY4 
-char printBuf[100];
+#define KEY1_PRES            1                                                  //KEY1
+#define WKUP_PRES            2                                                  //WK_UP
+#define KEY3_PRES            3                                                  //KEY3
+#define KEY4_PRES            4                                                  //KEY4
+char printBuf[500];
 /********************************************************************************************************
 **函数信息 ：void UartSendByte(u8 dat)
 **功能描述 ：UART发送数据
@@ -93,9 +93,9 @@ void UartSendByte(u8 dat)
 void UartSendGroup(u8* buf, u16 len)
 {
     RS485_W;
-//		delay(10);
+		delay_ms(10);
     while(len--) UartSendByte(*buf++);
-//		delay(10);
+		delay_ms(10);
     RS485_R;
 }
 /********************************************************************************************************
@@ -111,17 +111,15 @@ void UartInit_Loop(void)
     GPIO_InitTypeDef GPIO_InitStructure;
     UART_InitTypeDef UART_InitStructure;
     //485控制使能
- 
-
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE);                       //使能UART1时钟
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
-		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOA时钟
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOA时钟
     //UART 初始化设置
 //    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
 //    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
-		GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_3);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_3);	
-	
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_3);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_3);
+
     UART_InitStructure.UART_BaudRate = 9600;                                  //串口波特率
     UART_InitStructure.UART_WordLength = UART_WordLength_8b;                    //字长为8位数据格式
     UART_InitStructure.UART_StopBits = UART_StopBits_1;                         //一个停止位
@@ -142,9 +140,9 @@ void UartInit_Loop(void)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;                                  //PA10
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;                       	//浮空输入
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
-		
 
-		
+
+
     GPIO_InitStructure.GPIO_Pin  =  RS_DIR_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
@@ -167,14 +165,14 @@ int main(void)
     delay_init();
     LED_Init();
 		UartInit_Loop();
-    while(1) 
+    while(1)
 		{
 //        LED1_TOGGLE();
 //        LED2_TOGGLE();
 //        LED3_TOGGLE();
 //        LED4_TOGGLE();
-				UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
-        delay_ms(300);
+				UartSendGroup((u8*)printBuf, sprintf(printBuf, "123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789!\r\n"));
+        delay_ms(500);
     }
 }
 
@@ -262,22 +260,22 @@ void LED_Init(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
     //LED控制使能
-    GPIO_Clock_Set(LED4_PORT, ENABLE);  
+    GPIO_Clock_Set(LED4_PORT, ENABLE);
     GPIO_InitStructure.GPIO_Pin  =  LED4_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(LED4_PORT, &GPIO_InitStructure);
-    GPIO_Clock_Set(LED3_PORT, ENABLE);  
+    GPIO_Clock_Set(LED3_PORT, ENABLE);
     GPIO_InitStructure.GPIO_Pin  =  LED3_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(LED3_PORT, &GPIO_InitStructure);
-    GPIO_Clock_Set(LED2_PORT, ENABLE);  
+    GPIO_Clock_Set(LED2_PORT, ENABLE);
     GPIO_InitStructure.GPIO_Pin  =  LED2_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(LED2_PORT, &GPIO_InitStructure);
-    GPIO_Clock_Set(LED1_PORT, ENABLE);  
+    GPIO_Clock_Set(LED1_PORT, ENABLE);
     GPIO_InitStructure.GPIO_Pin  =  LED1_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
