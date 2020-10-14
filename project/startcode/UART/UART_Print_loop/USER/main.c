@@ -102,10 +102,10 @@ void UartInit_Loop(void)
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
 		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOA时钟
     //UART 初始化设置
-//    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
-//    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
-		GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_3);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_3);	
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
+//		GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_3);
+//    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_3);	
 	
     UART_InitStructure.UART_BaudRate = 9600;                                  //串口波特率
     UART_InitStructure.UART_WordLength = UART_WordLength_8b;                    //字长为8位数据格式

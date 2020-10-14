@@ -971,7 +971,7 @@
       </Groups>
     </Target>
     <Target>
-      <TargetName>stlink</TargetName>
+      <TargetName>STLINK</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pArmCC>5060750::V5.06 update 6 (build 750)::ARMCC</pArmCC>

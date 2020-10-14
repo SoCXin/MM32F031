@@ -80,7 +80,7 @@ int main(void)
                 UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nMini Board 串口实验\r\n"));
             }
             if(times % 200 == 0) UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入数据,以回车键结束\r\n"));
-            if(times % 30 == 0)LED1_TOGGLE();                                   //闪烁LED,提示系统正在运行.
+            if(times % 30 == 0)	LED1_TOGGLE();                                   //闪烁LED,提示系统正在运行.
             delay_ms(10);
         }
     }

@@ -316,7 +316,7 @@
   </Target>
 
   <Target>
-    <TargetName>stlink</TargetName>
+    <TargetName>STLINK</TargetName>
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
@@ -577,7 +577,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>MM32LINKCM3</Key>
-          <Name>-U0023050 -O206 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(0BB11477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0MM32xx_32 -FS08000000 -FL08000 -FP0($$Device:MM32F031C6T$Flash\MM32xx_32.FLM)</Name>
+          <Name>-U0023050 -O206 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(0BB11477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC1000 -FN1 -FF0MM32xx_32.FLM -FS08000000 -FL08000 -FP0($$Device:MM32F031C6T$Flash\MM32xx_32.FLM)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
