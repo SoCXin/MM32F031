@@ -8,7 +8,6 @@ project (mm32f)
 set(MY_TARGET mm32f)
 
 
-
 # debug build?
 set(DEBUG  "1")
 # optimization
@@ -122,8 +121,6 @@ endif()
 target_link_libraries(${MY_TARGET}.elf ${LIBS})
 set_target_properties(${MY_TARGET}.elf PROPERTIES LINK_DEPENDS ${LDSCRIPT})
 
-message("++++++++++++++add_custom_command+++++++++++++++++")
-
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${MY_TARGET}.elf ${MY_TARGET}.hex)
@@ -141,6 +138,6 @@ add_custom_command(
     TARGET  ${MY_TARGET}.elf
     POST_BUILD COMMAND ${CMAKE_SIZE}  ${MY_TARGET}.elf )
 
-add_custom_command(
-    TARGET  ${MY_TARGET}.elf
-    POST_BUILD COMMAND ${CMAKE_OBJDUMP} -S -l ${PROJECT_NAME}.elf  > ${PROJECT_NAME}.lst )
+    add_custom_command(
+        TARGET  ${MY_TARGET}.elf
+        POST_BUILD COMMAND ${CMAKE_OBJDUMP} -S -l ${PROJECT_NAME}.elf  > ${PROJECT_NAME}.lst )
