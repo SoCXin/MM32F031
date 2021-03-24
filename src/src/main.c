@@ -1,11 +1,10 @@
-/**
-******************************************************************************
-* @file     main.c
-* @author   AE team
-* @version  V1.0.1
-* @date     23/11/2018
-* @brief
-******************************************************************************
+/************************************************************************
+****版本：1.0.0
+****平台：MM32F031
+****日期：2021-03-16
+****作者：Qitas
+****版权：OS-Q
+**************************************************************************/
 #include "HAL_device.h"
 #include "HAL_conf.h"
 #include "stdio.h"
@@ -23,8 +22,6 @@ static __IO uint32_t TimingDelay;
 #define LED1_ON()  GPIO_ResetBits(LED1_Port,LED1_Pin)
 #define LED1_OFF()  GPIO_SetBits(LED1_Port,LED1_Pin)
 #define LED1_TOGGLE()  (GPIO_ReadOutputDataBit(LED1_Port,LED1_Pin))?(GPIO_ResetBits(LED1_Port,LED1_Pin)):(GPIO_SetBits(LED1_Port,LED1_Pin))
-
-
 
 
 
@@ -106,7 +103,7 @@ void LED_Init(void)
 
     GPIO_InitTypeDef  GPIO_InitStructure;
 
-    GPIO_Clock_Set(LED1_Port, ENABLE);  //����GPIOAʱ��
+    GPIO_Clock_Set(LED1_Port, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin  =  LED1_Pin;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -118,17 +115,6 @@ void LED_Init(void)
 
 }
 
-/**
-* @}
-*/
 
-/**
-* @}
-*/
-
-/**
-* @}
-*/
-
-/*-------------------------(C) COPYRIGHT 2018 MindMotion ----------------------*/
+/*-------------------------(C) COPYRIGHT 2021 OS-Q ----------------------*/
 
