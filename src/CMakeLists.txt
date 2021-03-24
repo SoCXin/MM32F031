@@ -3,9 +3,10 @@
 
 cmake_minimum_required (VERSION 2.6)
 
-project (mm32f)
+project (testmm32)
 
-set(MY_TARGET mm32f)
+set(MY_TARGET testmm32)
+
 
 
 # debug build?
@@ -24,6 +25,10 @@ if(!CROSS_COMPILER_PATH)
    message(FATAL_ERROR,"please use -CROSS_COMPILER_PATH=xxxx in command line")
 endif()
 
+# cross compiler
+# set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+#set(CROSS_COMPILER_PATH "/home/niexuzhong/gcc-arm-none-eabi-8-2019-q3-update")
+
 set(CMAKE_C_COMPILER "${CROSS_COMPILER_PATH}/bin/arm-none-eabi-gcc")
 MESSAGE(STATUS,"compiler is ${CMAKE_C_COMPILER}")
 set(CMAKE_ASM_COMPILER "${CROSS_COMPILER_PATH}/bin/arm-none-eabi-g++")
@@ -40,6 +45,11 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 
+
+
+
+
+
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -50,6 +60,9 @@ message("++++++++++++++Start Build+++++++++++++++++")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/CMSIS)
 include_directories(${PROJECT_SOURCE_DIR}/include/HALINCLUDE)
+
+
+
 
 # source file
 aux_source_directory(${PROJECT_SOURCE_DIR}/src USRSRC)
@@ -118,13 +131,15 @@ else()
 endif()
 
 
+
+
+
 target_link_libraries(${MY_TARGET}.elf ${LIBS})
 set_target_properties(${MY_TARGET}.elf PROPERTIES LINK_DEPENDS ${LDSCRIPT})
 
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${MY_TARGET}.elf ${MY_TARGET}.hex)
-
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
     POST_BUILD COMMAND ${CMAKE_OBJCOPY} -O binary ${MY_TARGET}.elf ${MY_TARGET}.bin)
