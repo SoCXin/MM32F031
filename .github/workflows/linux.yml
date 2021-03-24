@@ -1,0 +1,33 @@
+name: gcc
+
+on:
+  push:
+    branches:
+      - master
+      - github_actions
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - master
+      - github_actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out
+      uses: actions/checkout@v2
+
+    - name: Install
+      run: |
+        apt update
+        sudo apt install -y gcc-arm-none-eabi
+
+    - name: Build
+      working-directory: src
+      run: |
+        mkdir build && cd build
+        cmake .. && make
+
