@@ -3,12 +3,10 @@ name: default
 
 steps:
 - name: Drone
-  image: python:3
+  image: ubuntu
   commands:
   - apt update
-  - apt install -y git
+  - apt install -y git gcc-arm-none-eabi cmake
   - git submodule update --init --recursive
-  - pip install -U https://github.com/platformio/platformio/archive/develop.zip
-  - platformio platform install file://.
-  - platformio run -d examples/zephyr-blink
-  - platformio run -d examples/arduino-blink
+  - cd src && mkdir build && cd build
+  - cmake .. && make
