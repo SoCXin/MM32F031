@@ -10,7 +10,7 @@ set(MY_TARGET testmm32)
 
 
 # debug build?
-set(DEBUG  "1") 
+set(DEBUG  "1")
 # optimization
 set(OPT  "-Og")
 
@@ -24,10 +24,6 @@ set(CMAKE_SYSTEM_PROCESSOR arm)
 if(!CROSS_COMPILER_PATH)
    message(FATAL_ERROR,"please use -CROSS_COMPILER_PATH=xxxx in command line")
 endif()
-
-# cross compiler
-# set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-#set(CROSS_COMPILER_PATH "/home/niexuzhong/gcc-arm-none-eabi-8-2019-q3-update")
 
 set(CMAKE_C_COMPILER "${CROSS_COMPILER_PATH}/bin/arm-none-eabi-gcc")
 MESSAGE(STATUS,"compiler is ${CMAKE_C_COMPILER}")
@@ -66,7 +62,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include/HALINCLUDE)
 
 # source file
 aux_source_directory(${PROJECT_SOURCE_DIR}/src USRSRC)
-aux_source_directory(${PROJECT_SOURCE_DIR}/mm32f003 HALSRC)
+aux_source_directory(${PROJECT_SOURCE_DIR}/HAL HALSRC)
 # the hal source is same for kinds of m32f00 for cortex-m0 machine
 
 
@@ -106,7 +102,7 @@ set(LIBS "-lc -lm -lnosys" )
 
 
 if(MCU_TYPE STREQUAL "MM32F003")
-   set(LDSCRIPT "${PROJECT_SOURCE_DIR}/mm32f003.ld")       
+   set(LDSCRIPT "${PROJECT_SOURCE_DIR}/mm32f003.ld")
 elseif(MCU_TYPE STREQUAL "MM32F031")
    set(LDSCRIPT "${PROJECT_SOURCE_DIR}/mm32f031.ld")
 else()
@@ -120,11 +116,11 @@ set(CMAKE_EXE_LINKER_FLAGS "${MCU} -specs=nano.specs -specs=nosys.specs -T${LDSC
 
 if(MCU_TYPE STREQUAL "MM32F003")
     add_executable(${MY_TARGET}.elf ${USRSRC} ${HALSRC}
-       ${PROJECT_SOURCE_DIR}/device/startup_mm32f003.s 
+       ${PROJECT_SOURCE_DIR}/device/startup_mm32f003.s
        ${PROJECT_SOURCE_DIR}/device/system_MM32F003_q.c)
 elseif(MCU_TYPE STREQUAL "MM32F031")
      add_executable(${MY_TARGET}.elf ${USRSRC} ${HALSRC}
-        ${PROJECT_SOURCE_DIR}/device/startup_mm32f031x4x6_q.s 
+        ${PROJECT_SOURCE_DIR}/device/startup_mm32f031x4x6_q.s
         ${PROJECT_SOURCE_DIR}/device/system_MM32F031x4x6_q.c)
 else()
       message(FATAL_ERROR,"please select mcu type")
@@ -138,7 +134,7 @@ target_link_libraries(${MY_TARGET}.elf ${LIBS})
 set_target_properties(${MY_TARGET}.elf PROPERTIES LINK_DEPENDS ${LDSCRIPT})
 
 add_custom_command(
-    TARGET  ${MY_TARGET}.elf   
+    TARGET  ${MY_TARGET}.elf
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${MY_TARGET}.elf ${MY_TARGET}.hex)
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
@@ -155,4 +151,4 @@ add_custom_command(
 
     add_custom_command(
         TARGET  ${MY_TARGET}.elf
-        POST_BUILD COMMAND ${CMAKE_OBJDUMP} -S -l ${PROJECT_NAME}.elf  > ${PROJECT_NAME}.lst )    
+        POST_BUILD COMMAND ${CMAKE_OBJDUMP} -S -l ${PROJECT_NAME}.elf  > ${PROJECT_NAME}.lst )

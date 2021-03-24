@@ -1,7 +1,3 @@
-# EFM32 Emlib CMake file
-#
-# Configures the emlib and adds it to the build
-
 ##### Files #####
 
 # Headers
