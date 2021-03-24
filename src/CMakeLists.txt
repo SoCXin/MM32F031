@@ -3,9 +3,9 @@
 
 cmake_minimum_required (VERSION 2.6)
 
-project (testmm32)
+project (mm32f)
 
-set(MY_TARGET testmm32)
+set(MY_TARGET mm32f)
 
 
 
@@ -41,11 +41,6 @@ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 
-
-
-
-
-
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -56,9 +51,6 @@ message("++++++++++++++Start Build+++++++++++++++++")
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/CMSIS)
 include_directories(${PROJECT_SOURCE_DIR}/include/HALINCLUDE)
-
-
-
 
 # source file
 aux_source_directory(${PROJECT_SOURCE_DIR}/src USRSRC)
@@ -127,15 +119,13 @@ else()
 endif()
 
 
-
-
-
 target_link_libraries(${MY_TARGET}.elf ${LIBS})
 set_target_properties(${MY_TARGET}.elf PROPERTIES LINK_DEPENDS ${LDSCRIPT})
 
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${MY_TARGET}.elf ${MY_TARGET}.hex)
+
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
     POST_BUILD COMMAND ${CMAKE_OBJCOPY} -O binary ${MY_TARGET}.elf ${MY_TARGET}.bin)
@@ -149,6 +139,6 @@ add_custom_command(
     TARGET  ${MY_TARGET}.elf
     POST_BUILD COMMAND ${CMAKE_SIZE}  ${MY_TARGET}.elf )
 
-    add_custom_command(
-        TARGET  ${MY_TARGET}.elf
-        POST_BUILD COMMAND ${CMAKE_OBJDUMP} -S -l ${PROJECT_NAME}.elf  > ${PROJECT_NAME}.lst )
+add_custom_command(
+    TARGET  ${MY_TARGET}.elf
+    POST_BUILD COMMAND ${CMAKE_OBJDUMP} -S -l ${PROJECT_NAME}.elf  > ${PROJECT_NAME}.lst )
