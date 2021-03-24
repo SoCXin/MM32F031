@@ -122,6 +122,8 @@ endif()
 target_link_libraries(${MY_TARGET}.elf ${LIBS})
 set_target_properties(${MY_TARGET}.elf PROPERTIES LINK_DEPENDS ${LDSCRIPT})
 
+message("++++++++++++++add_custom_command+++++++++++++++++")
+
 add_custom_command(
     TARGET  ${MY_TARGET}.elf
     COMMAND ${CMAKE_OBJCOPY} -O ihex ${MY_TARGET}.elf ${MY_TARGET}.hex)
