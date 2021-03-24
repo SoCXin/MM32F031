@@ -18,6 +18,11 @@ jobs:
       with:
         submodules: "recursive"
 
+    - name: Install
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake
+
     - name: Download
       working-directory: src
       run: |
@@ -29,9 +34,10 @@ jobs:
       run: |
         mkdir build && cd build
         cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major .. && make
+        mkdir -p ./output && cp *.elf "$_"
 
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: upload-firmware
-        path: src/build/
+        name: firmware
+        path: src/build/output/
