@@ -2,8 +2,8 @@
     "type":"MCU",
     "name":"MM32F031",
     "series":["MM32F031","MM32F032"],
-    "compatible":["MM32F031","MM32F032"],
-    "price":[3.5,4.5],
+    "compatible":["MM32F003","MM32F013"],
+    "price":[3.5,6.5],
     "description":"WCH 1T 8051 MCU",
     "peripheral": ["TIM","ADC","USB","UART","SPI","LDO","PWM"],
     "package":["MSOP10","QFN16","SOP16","TSSOP20"],
@@ -11,16 +11,16 @@
     "ROM":[16,16],
     "DATA":[128,128],
     "manufacturer": {
-        "vendor":"WCH",
-        "homepage": "http://www.wch.cn/products/CH554.html"
+        "vendor":"mindmotion",
+        "homepage": "http://www.mindmotion.com.cn/"
     },
-    "url":"http://www.SoC.xin/CH554",
-    "repo":"https://github.com/SoCXin/CH554",
-    "version":"1.7.0",
+    "url":"http://www.SoC.xin/MM32F031",
+    "repo":"https://github.com/SoCXin/MM32F031",
+    "version":"1.0.0",
     "Core": {
         "num": 1,
-        "architecture":"8051",
-        "Freq":[8,24]
+        "architecture":"Cortex M0",
+        "Freq":[8,72]
     },
     "UART": {
         "mark": ["UART1","UART2"],
