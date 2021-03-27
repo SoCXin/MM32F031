@@ -106,9 +106,9 @@ set(LIBS "-lc -lm -lnosys" )
 
 
 if(MCU_TYPE STREQUAL "MM32F003")
-   set(LDSCRIPT "${PROJECT_SOURCE_DIR}/ldscripts/mm32f003.ld")
+   set(LDSCRIPT "${PROJECT_SOURCE_DIR}/ldscripts/mm32f0/mm32f003.ld")
 elseif(MCU_TYPE STREQUAL "MM32F031")
-   set(LDSCRIPT "${PROJECT_SOURCE_DIR}/ldscripts/mm32f031.ld")
+   set(LDSCRIPT "${PROJECT_SOURCE_DIR}/ldscripts/mm32f0/mm32f031.ld")
 else()
       message(FATAL_ERROR,"please select mcu type")
 endif()

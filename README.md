@@ -2,7 +2,7 @@
 
 ![Build](https://github.com/SoCXin/MM32F031/workflows/latest/badge.svg)
 ![Build](https://github.com/SoCXin/MM32F031/workflows/default/badge.svg)
-![Build](http://182.61.61.133/api/badges/SoCXin/MM32F031/status.svg)
+
 
 #### [MindMotion](http://www.mindmotion.com.cn/)：[Cortex M0](https://github.com/SoCXin/CM0)
 #### [Level](https://github.com/SoCXin/Level)：72 MHz
