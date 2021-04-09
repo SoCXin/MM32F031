@@ -18,7 +18,7 @@ void delay_ms(__IO uint32_t nTime);
 void TimingDelay_Decrement(void);
 void LED_Init(void);
 void UartSendGroup(u8* buf, u16 len);
-
+void UartSendByte(u8 dat);
 #define UART_REC_LEN            200                                             //定义最大接收字节数 200
 #define EN_UART1_RX             1                                               //使能（1）/禁止（0）串口1接收
 
@@ -28,15 +28,30 @@ u8 UART_RX_BUF[UART_REC_LEN];     //接收缓冲,最大UART_REC_LEN个字节.
 u16 UART_RX_STA = 0;              //接收状态标记
 char printBuf[100];
 
-#define LED1_PORT                   (GPIOB)
-#define LED1_PIN                    (GPIO_Pin_7)
-#define LED2_PORT                   (GPIOB)
-#define LED2_PIN                    (GPIO_Pin_8)
 
+
+
+//53
+#define LED1_PORT           (GPIOB)
+#define LED1_PIN            (GPIO_Pin_7)
+#define LED2_PORT           (GPIOB)
+#define LED2_PIN            (GPIO_Pin_8)
 #define RS_DIR_PORT         (GPIOA)
 #define RS_DIR_PIN          (GPIO_Pin_11)
 #define RS485_R             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN)
 #define RS485_W             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN)
+
+//84
+// #define LED1_PORT                   (GPIOB)
+// #define LED1_PIN                    (GPIO_Pin_3)
+// #define LED2_PORT                   (GPIOA)
+// #define LED2_PIN                    (GPIO_Pin_15)
+
+// #define RS_DIR_PORT         (GPIOB)
+// #define RS_DIR_PIN          (GPIO_Pin_11)
+// #define RS485_W             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN)
+// #define RS485_R             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN)
+
 
 #define LED4_ON()       GPIO_ResetBits(GPIOA,GPIO_Pin_15)	// PA15
 #define LED4_OFF()      GPIO_SetBits(GPIOA,GPIO_Pin_15)	// PA15
@@ -69,32 +84,40 @@ int main(void)
     LED_Init();
     uart_nvic_init(9600);
     LED2_OFF();
+    LED1_ON();
     while(1)
     {
         if(UART_RX_STA & 0x8000)
         {
+            LED1_OFF();
+            LED2_ON();
             len = UART_RX_STA & 0x3fff;                                         //得到此次接收到的数据长度
-            UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n您发送的消息为:\r\n"));
+            UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));
             for(t = 0; t < len; t++)
             {
                 while((UART1->CSR & UART_IT_TXIEN) == 0);                       //等待发送结束
                 UART1->TDR = UART_RX_BUF[t];
             }
-            UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n\r\n"));        //插入换行
+            UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));        //插入换行
+            UartSendByte(UART_RX_STA>>8);
+            UartSendByte(UART_RX_STA & 0xff);
+            UartSendByte(len);
             UART_RX_STA = 0;
         }
         else
         {
             times++;
-            if(times % 5000 == 0)
+            if(times % 3000 == 0)
             {
-                UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nMini Board 串口实验\r\n"));
+                LED2_OFF();
+                LED1_ON();
+                UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n串口实验\r\n"));
             }
             // if(times % 200 == 0) UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入数据,以回车键结束\r\n"));
-            if(times % 30 == 0)
-            {
-                LED1_TOGGLE();
-            }
+            // if(times % 30 == 0)
+            // {
+            //     LED1_TOGGLE();
+            // }
             delay_ms(10);
         }
     }
@@ -279,8 +302,14 @@ void UART1_IRQHandler(void)
 ********************************************************************************************************/
 void UartSendByte(u8 dat)
 {
+    #ifdef RS485_W
+    RS485_W;
+    #endif
     UART_SendData(UART1, dat);
     while(!UART_GetFlagStatus(UART1, UART_FLAG_TXEPT));
+		#ifdef RS485_R
+    RS485_R;
+    #endif
 }
 
 /********************************************************************************************************
@@ -292,12 +321,12 @@ void UartSendByte(u8 dat)
 ********************************************************************************************************/
 void UartSendGroup(u8* buf, u16 len)
 {
-    #ifdef RS485
+    #ifdef RS485_W
     RS485_W;
     #endif
     while(len--) UartSendByte(*buf++);
-    #ifdef RS485
-    delay_ms(4);
+    #ifdef RS485_R
+    delay_ms(2);
     RS485_R;
     #endif
 }
