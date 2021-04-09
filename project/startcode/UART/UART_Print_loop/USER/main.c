@@ -13,9 +13,9 @@
 #include "stdio.h"
 
 #define RS_DIR_PORT         (GPIOA)
-#define RS_DIR_PIN          (GPIO_Pin_7)
-#define        RS485_R      GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOA,GPIO_Pin_6);GPIO_ResetBits(GPIOA,GPIO_Pin_5)
-#define      RS485_W         GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOA,GPIO_Pin_6);GPIO_ResetBits(GPIOA,GPIO_Pin_5)
+#define RS_DIR_PIN          (GPIO_Pin_11)
+#define        RS485_R      GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_ResetBits(GPIOB,GPIO_Pin_7)
+#define      RS485_W         GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN);GPIO_SetBits(GPIOB,GPIO_Pin_7)
 
 void UartInit_Loop(void);
 void UartSendGroup(u8* buf, u16 len);
@@ -76,7 +76,7 @@ int main(void)
 ////				delay(1000);
 //				RS485_R;
 //				delay(1000);
-			delay_ms(300);
+				delay_ms(500);
         UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
 //        delay(1000);
 //        Uart1RxTest(UART1);  //UART1的接收，在串口软件中输入字符，可以通过打印验证接收的数据是否正确
@@ -100,12 +100,12 @@ void UartInit_Loop(void)
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE);                       //使能UART1时钟
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);                         //开启GPIOA时钟
-		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOA时钟
+		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);                         //开启GPIOB时钟
     //UART 初始化设置
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
-//		GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_3);
-//    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_3);	
+//    GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_1);
+//    GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_1);
+		GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_1);
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_1);	
 	
     UART_InitStructure.UART_BaudRate = 9600;                                  //串口波特率
     UART_InitStructure.UART_WordLength = UART_WordLength_8b;                    //字长为8位数据格式
@@ -120,12 +120,12 @@ void UartInit_Loop(void)
     //UART1_TX   GPIOA.9
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;                                   //PA.9
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING ;                             //复用推挽输出
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP ;                             //复用推挽输出
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.9
 
     //UART1_RX	  GPIOA.10初始化
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;                                  //PA10
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;                       	//浮空输入
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;                       	//浮空输入
     GPIO_Init(GPIOA, &GPIO_InitStructure);                                      //初始化GPIOA.10
 		
 
@@ -134,10 +134,12 @@ void UartInit_Loop(void)
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
-    GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_6|GPIO_Pin_5;
+		
+    GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_7;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+		
     UartSendGroup((u8*)printBuf, sprintf(printBuf, "UART OK!\r\n"));
 }
 

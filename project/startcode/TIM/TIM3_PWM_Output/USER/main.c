@@ -35,14 +35,15 @@ int main(void)
 
     delay_init();
     uart_initwBaudRate(115200);
-    TIM3_PWM_Init(99, 0);                                                       //不分频
+    TIM3_PWM_Init(999, 0);                                                       //不分频
     while(1) {
         delay_ms(4);
         if(dir)led0pwmval++;
         else led0pwmval--;
         if(led0pwmval > 300)dir = 0;
         if(led0pwmval == 0)dir = 1;
-        TIM_SetCompare1(TIM3, led0pwmval);
+        TIM_SetCompare1(TIM3, 50);
+				TIM_SetCompare1(TIM1, 50);
     }
 }
 

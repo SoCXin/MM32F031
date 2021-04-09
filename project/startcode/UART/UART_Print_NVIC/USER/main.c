@@ -28,21 +28,31 @@ u8 UART_RX_BUF[UART_REC_LEN];     //接收缓冲,最大UART_REC_LEN个字节.
 u16 UART_RX_STA = 0;              //接收状态标记
 char printBuf[100];
 
-#define LED4_ON()  GPIO_ResetBits(GPIOA,GPIO_Pin_15)	// PA15
-#define LED4_OFF()  GPIO_SetBits(GPIOA,GPIO_Pin_15)	// PA15
-#define LED4_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_15))?(GPIO_ResetBits(GPIOA,GPIO_Pin_15)):(GPIO_SetBits(GPIOA,GPIO_Pin_15)) // PA15
+#define LED1_PORT                   (GPIOB)
+#define LED1_PIN                    (GPIO_Pin_7)
+#define LED2_PORT                   (GPIOB)
+#define LED2_PIN                    (GPIO_Pin_8)
 
-#define LED3_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_3)	// PB3
-#define LED3_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_3)	// PB3
-#define LED3_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_3))?(GPIO_ResetBits(GPIOB,GPIO_Pin_3)):(GPIO_SetBits(GPIOB,GPIO_Pin_3))	// PB3
+#define RS_DIR_PORT         (GPIOA)
+#define RS_DIR_PIN          (GPIO_Pin_11)
+#define RS485_R             GPIO_ResetBits(RS_DIR_PORT,RS_DIR_PIN)
+#define RS485_W             GPIO_SetBits(RS_DIR_PORT,RS_DIR_PIN)
 
-#define LED2_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_4)	// PB4
-#define LED2_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_4)	// PB4
-#define LED2_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_4))?(GPIO_ResetBits(GPIOB,GPIO_Pin_4)):(GPIO_SetBits(GPIOB,GPIO_Pin_4))	// PB4
+#define LED4_ON()       GPIO_ResetBits(GPIOA,GPIO_Pin_15)	// PA15
+#define LED4_OFF()      GPIO_SetBits(GPIOA,GPIO_Pin_15)	// PA15
+#define LED4_TOGGLE()   (GPIO_ReadOutputDataBit(GPIOA,GPIO_Pin_15))?(GPIO_ResetBits(GPIOA,GPIO_Pin_15)):(GPIO_SetBits(GPIOA,GPIO_Pin_15)) // PA15
 
-#define LED1_ON()  GPIO_ResetBits(GPIOB,GPIO_Pin_5)	// PB5
-#define LED1_OFF()  GPIO_SetBits(GPIOB,GPIO_Pin_5)	// PB5
-#define LED1_TOGGLE()  (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_5))?(GPIO_ResetBits(GPIOB,GPIO_Pin_5)):(GPIO_SetBits(GPIOB,GPIO_Pin_5))	// PB5
+#define LED3_ON()       GPIO_ResetBits(GPIOB,GPIO_Pin_3)	// PB3
+#define LED3_OFF()      GPIO_SetBits(GPIOB,GPIO_Pin_3)	// PB3
+#define LED3_TOGGLE()   (GPIO_ReadOutputDataBit(GPIOB,GPIO_Pin_3))?(GPIO_ResetBits(GPIOB,GPIO_Pin_3)):(GPIO_SetBits(GPIOB,GPIO_Pin_3))	// PB3
+
+#define LED2_ON()       GPIO_ResetBits(LED2_PORT,LED2_PIN)	// PB4
+#define LED2_OFF()      GPIO_SetBits(LED2_PORT,LED2_PIN)	// PB4
+#define LED2_TOGGLE()   (GPIO_ReadOutputDataBit(LED2_PORT,LED2_PIN))?(GPIO_ResetBits(LED2_PORT,LED2_PIN)):(GPIO_SetBits(LED2_PORT,LED2_PIN))	// PB4
+
+#define LED1_ON()       GPIO_ResetBits(LED1_PORT,LED1_PIN)	// PB5
+#define LED1_OFF()      GPIO_SetBits(LED1_PORT,LED1_PIN)	// PB5
+#define LED1_TOGGLE()   (GPIO_ReadOutputDataBit(LED1_PORT,LED1_PIN))?(GPIO_ResetBits(LED1_PORT,LED1_PIN)):(GPIO_SetBits(LED1_PORT,LED1_PIN))	// PB5
 
 /********************************************************************************************************
 **函数信息 ：main(void)
@@ -58,29 +68,33 @@ int main(void)
     delay_init();
     LED_Init();
     uart_nvic_init(9600);
-    while(1) 
-		{
-        if(UART_RX_STA & 0x8000) 
-				{
+    LED2_OFF();
+    while(1)
+    {
+        if(UART_RX_STA & 0x8000)
+        {
             len = UART_RX_STA & 0x3fff;                                         //得到此次接收到的数据长度
             UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n您发送的消息为:\r\n"));
-            for(t = 0; t < len; t++) 
-						{
+            for(t = 0; t < len; t++)
+            {
                 while((UART1->CSR & UART_IT_TXIEN) == 0);                       //等待发送结束
                 UART1->TDR = UART_RX_BUF[t];
             }
             UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n\r\n"));        //插入换行
             UART_RX_STA = 0;
-        } 
-				else 
-				{
+        }
+        else
+        {
             times++;
-            if(times % 5000 == 0) 
-						{
+            if(times % 5000 == 0)
+            {
                 UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\nMini Board 串口实验\r\n"));
             }
-            if(times % 200 == 0) UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入数据,以回车键结束\r\n"));
-            if(times % 30 == 0)	LED1_TOGGLE();                                   //闪烁LED,提示系统正在运行.
+            // if(times % 200 == 0) UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入数据,以回车键结束\r\n"));
+            if(times % 30 == 0)
+            {
+                LED1_TOGGLE();
+            }
             delay_ms(10);
         }
     }
@@ -94,7 +108,8 @@ int main(void)
 ********************************************************************************************************/
 void delay_init(void)
 {
-    if (SysTick_Config(SystemCoreClock / 1000)) {
+    if (SysTick_Config(SystemCoreClock / 1000))
+    {
         /* Capture error */
         while (1);
     }
@@ -152,20 +167,23 @@ void LED_Init(void)
 
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA | RCC_AHBPeriph_GPIOB, ENABLE);   //开启GPIOA,GPIOB时钟
 
-    GPIO_InitStructure.GPIO_Pin  =  GPIO_Pin_15;
+    GPIO_InitStructure.GPIO_Pin  = LED2_PIN ;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+    GPIO_Init(LED2_PORT, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin  = LED1_PIN  ;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-
+    GPIO_Init(LED1_PORT, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin  = RS_DIR_PIN  ;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(RS_DIR_PORT, &GPIO_InitStructure);
     LED1_ON();
     LED2_ON();
-    LED3_ON();
-    LED4_ON();
+    RS485_W;
+    // LED3_ON();
+    // LED4_ON();
 }
 
 /********************************************************************************************************
@@ -274,8 +292,14 @@ void UartSendByte(u8 dat)
 ********************************************************************************************************/
 void UartSendGroup(u8* buf, u16 len)
 {
-    while(len--)
-        UartSendByte(*buf++);
+    #ifdef RS485
+    RS485_W;
+    #endif
+    while(len--) UartSendByte(*buf++);
+    #ifdef RS485
+    delay_ms(4);
+    RS485_R;
+    #endif
 }
 
 /**
