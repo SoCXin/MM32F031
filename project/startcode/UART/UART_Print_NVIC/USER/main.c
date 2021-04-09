@@ -85,6 +85,9 @@ int main(void)
     uart_nvic_init(9600);
     LED2_OFF();
     LED1_ON();
+    #ifdef RS485_R
+    RS485_R;
+    #endif
     while(1)
     {
         if(UART_RX_STA & 0x8000)
@@ -93,24 +96,31 @@ int main(void)
             LED2_ON();
             len = UART_RX_STA & 0x3fff;                                         //得到此次接收到的数据长度
             UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));
+            #ifdef RS485_W
+            RS485_W;
+            #endif
             for(t = 0; t < len; t++)
             {
-                while((UART1->CSR & UART_IT_TXIEN) == 0);                       //等待发送结束
                 UART1->TDR = UART_RX_BUF[t];
+                while(!UART_GetFlagStatus(UART1, UART_FLAG_TXEPT));
+                // while((UART1->CSR & UART_IT_TXIEN) == 0);                       //等待发送结束
             }
+            #ifdef RS485_R
+            RS485_R;
+            #endif
             UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n"));        //插入换行
-            UartSendByte(UART_RX_STA>>8);
-            UartSendByte(UART_RX_STA & 0xff);
+            // UartSendByte(UART_RX_STA>>8);
+            // UartSendByte(UART_RX_STA & 0xff);
             UartSendByte(len);
             UART_RX_STA = 0;
+            LED2_OFF();
+            LED1_ON();
         }
         else
         {
             times++;
-            if(times % 3000 == 0)
+            if(times % 5000 == 0)
             {
-                LED2_OFF();
-                LED1_ON();
                 UartSendGroup((u8*)printBuf, sprintf(printBuf, "\r\n串口实验\r\n"));
             }
             // if(times % 200 == 0) UartSendGroup((u8*)printBuf, sprintf(printBuf, "请输入数据,以回车键结束\r\n"));
@@ -307,7 +317,7 @@ void UartSendByte(u8 dat)
     #endif
     UART_SendData(UART1, dat);
     while(!UART_GetFlagStatus(UART1, UART_FLAG_TXEPT));
-		#ifdef RS485_R
+    #ifdef RS485_R
     RS485_R;
     #endif
 }
