@@ -46,10 +46,6 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 
 
 
-
-
-
-
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -130,8 +126,6 @@ elseif(MCU_TYPE STREQUAL "MM32F031")
 else()
       message(FATAL_ERROR,"please select mcu type")
 endif()
-
-
 
 
 

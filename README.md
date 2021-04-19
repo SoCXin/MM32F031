@@ -1,7 +1,9 @@
 ﻿# [MM32F031](https://github.com/SoCXin/MM32F031)
 
-![Build](https://github.com/SoCXin/MM32F031/workflows/latest/badge.svg)
-![Build](https://github.com/SoCXin/MM32F031/workflows/default/badge.svg)
+[![sites](http://182.61.61.133/link/resources/head.png)](http://www.SoC.Xin)
+
+![Build](https://github.com/SoCXin/MM32F031/workflows/CI/badge.svg)
+![Build](https://github.com/SoCXin/MM32F031/workflows/nightly/badge.svg)
 
 
 #### [MindMotion](http://www.mindmotion.com.cn/)：[Cortex M0](https://github.com/SoCXin/CM0)
@@ -30,4 +32,4 @@
 
 [MM32F031](https://github.com/SoCXin/MM32F031)相比于[MM32F032](https://github.com/SoCXin/MM32F032) 少了RTC
 
-###  [芯云 www.SoC.Xin](http://www.SoC.Xin)
+###  [芯云 www.SoC.xin](http://www.SoC.Xin)
