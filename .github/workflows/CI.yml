@@ -41,11 +41,11 @@ jobs:
     #     sudo apt-get update
     #     sudo apt-get install -y cmake
 
-    # - name: Download
-    #   working-directory: src
-    #   run: |
-    #     wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
-    #     tar -xf gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
+    - name: Download
+      working-directory: src
+      run: |
+        wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
+        tar -xf gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
 
     # - name: Build
     #   working-directory: src
@@ -59,7 +59,7 @@ jobs:
       working-directory: src
       run: |
         mkdir build && cd build
-        cmake -DMCU_TYPE=MM32F031 ..
+        cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major ..
 
     # - name: Upload
     #   uses: actions/upload-artifact@v2
@@ -72,6 +72,7 @@ jobs:
       with:
         source-dir: src
         build-dir: src/build
+        parallel: 8
 
     - name: Upload
       uses: actions/upload-artifact@v2
