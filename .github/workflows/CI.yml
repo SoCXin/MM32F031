@@ -2,11 +2,15 @@ name: CI
 
 on:
   push:
-    paths:
-      - 'src/**'
-  pull_request:
-    paths:
-      - 'src/**'
+    branches:
+      - master
+# on:
+#   push:
+#     paths:
+#       - 'src/**'
+#   pull_request:
+#     paths:
+#       - 'src/**'
 
 jobs:
   check:
@@ -19,9 +23,9 @@ jobs:
         submodules: "recursive"
 
     - name: cppcheck
-      uses: deep5050/cppcheck-action@main
-      with:
-        GITHUB_TOKEN: ${{ secrets.SOC_XIN_TOCKEN }}
+      uses: Qful/check-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH_NAME: 'master'
 
   build:
@@ -43,13 +47,19 @@ jobs:
     #     wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
     #     tar -xf gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
 
+    # - name: Build
+    #   working-directory: src
+    #   run: |
+    #     mkdir build && cd build
+    #     # cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major .. && make
+    #     # mkdir -p ./output && cp *.elf "$_"
+    #     # make clean
+
     - name: Build
       working-directory: src
       run: |
-        mkdir build
-        # cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major .. && make
-        # mkdir -p ./output && cp *.elf "$_"
-        # make clean
+        mkdir build && cd build
+        cmake -DMCU_TYPE=MM32F031
 
     # - name: Upload
     #   uses: actions/upload-artifact@v2
