@@ -1,12 +1,8 @@
-
-
-
 cmake_minimum_required (VERSION 2.6)
 
 project (testmm32f031)
 
 set(MY_TARGET testmm32f031)
-
 
 
 # debug build?
