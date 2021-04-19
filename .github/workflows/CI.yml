@@ -59,7 +59,7 @@ jobs:
       working-directory: src
       run: |
         mkdir build && cd build
-        cmake -DMCU_TYPE=MM32F031
+        cmake -DMCU_TYPE=MM32F031 ..
 
     # - name: Upload
     #   uses: actions/upload-artifact@v2
