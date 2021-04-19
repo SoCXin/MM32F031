@@ -24,9 +24,31 @@ jobs:
 
     - name: cppcheck
       uses: Qful/check-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        check_library: disable
+        skip_preprocessor: disable
+        enable: all #performance,portability,warning
+        inconclusive: disable
+        inline_suppression: disable
+        force_language: c
+        force: enable
+        max_ctu_depth: 12
+        platform: disable
+        output_file: ./cppcheck.txt
+        other_options: --bug-hunting --verbose --std=c99
+
+    - name: report
+      uses: Qful/check-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH_NAME: 'master'
+
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: report
+        path: cppcheck.txt
 
   build:
     runs-on: ubuntu-latest
@@ -35,11 +57,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: "recursive"
-
-    # - name: Install
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install -y cmake
 
     - name: Download
       working-directory: src
@@ -60,22 +77,17 @@ jobs:
       run: |
         mkdir build && cd build
         cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major ..
-
-    # - name: Upload
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: firmware
-    #     path: src/build/output/
+        mkdir output
 
     - name: Action build
       uses: Qful/cmake-action@master
       with:
         source-dir: src
-        build-dir: src/build
+        build-dir: src/output
         parallel: 8
 
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
         name: ActionFirmware
-        path: src/build/
+        path: src/output
