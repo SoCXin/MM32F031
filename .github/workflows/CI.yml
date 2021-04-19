@@ -14,7 +14,7 @@ on:
 
 jobs:
   check:
-    name: cppcheck
+    name: check
     runs-on: ubuntu-latest
     steps:
     - name: Check out
@@ -53,6 +53,9 @@ jobs:
         path: cppcheck.txt
 
   build:
+    needs:
+      - check
+    if: success()
     runs-on: ubuntu-latest
     steps:
     - name: Check out
@@ -79,17 +82,20 @@ jobs:
       run: |
         mkdir build && cd build
         cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major ..
-        mkdir output
+
+    - name: output
+      run: |
+        mkdir src/output
 
     - name: Action build
       uses: Qful/cmake-action@master
       with:
         source-dir: src
-        build-dir: src/build/output
+        build-dir: src/output
         parallel: 8
 
     - name: Upload
       uses: actions/upload-artifact@v2
       with:
-        name: ActionFirmware
+        name: firmware
         path: src/output
