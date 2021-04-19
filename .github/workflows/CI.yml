@@ -9,41 +9,55 @@ on:
       - 'src/**'
 
 jobs:
-  build:
+  check:
+    name: cppcheck
     runs-on: ubuntu-latest
-
     steps:
     - name: Check out
       uses: actions/checkout@v2
       with:
         submodules: "recursive"
 
-    - name: Install
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake
+    - name: cppcheck
+      uses: deep5050/cppcheck-action@main
+      with:
+        GITHUB_TOKEN: ${{ secrets.SOC_XIN_TOCKEN }}
+        BRANCH_NAME: 'master'
 
-    - name: Download
-      working-directory: src
-      run: |
-        wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
-        tar -xf gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out
+      uses: actions/checkout@v2
+      with:
+        submodules: "recursive"
+
+    # - name: Install
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y cmake
+
+    # - name: Download
+    #   working-directory: src
+    #   run: |
+    #     wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
+    #     tar -xf gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
 
     - name: Build
       working-directory: src
       run: |
-        mkdir build && cd build
-        cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major .. && make
-        mkdir -p ./output && cp *.elf "$_"
-        make clean
+        mkdir build
+        # cmake -DMCU_TYPE=MM32F031 -D CROSS_COMPILER_PATH=../gcc-arm-none-eabi-10-2020-q4-major .. && make
+        # mkdir -p ./output && cp *.elf "$_"
+        # make clean
 
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: firmware
-        path: src/build/output/
+    # - name: Upload
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: firmware
+    #     path: src/build/output/
 
-    - name: Action Test
+    - name: Action build
       uses: Qful/cmake-action@master
       with:
         source-dir: src
