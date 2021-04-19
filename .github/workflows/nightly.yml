@@ -1,12 +1,9 @@
-name: default
+name: nightly
 
 on:
-  push:
-    paths:
-      - 'src/**'
-  pull_request:
-    paths:
-      - 'src/**'
+  schedule:
+    - cron: '0 15 * * *'
+
 
 jobs:
   build:

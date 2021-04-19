@@ -1,4 +1,4 @@
-name: latest
+name: CI
 
 on:
   push:
@@ -43,7 +43,14 @@ jobs:
         name: firmware
         path: src/build/output/
 
-    - name: Build & Test
-      uses: ashutoshvarma/action-cmake-build@master
+    - name: Action Test
+      uses: Qful/cmake-action@master
       with:
+        source-dir: src
         build-dir: src/build
+
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: ActionFirmware
+        path: src/build/
